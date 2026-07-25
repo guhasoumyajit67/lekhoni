@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}প্রোফাইল আপডেট - লেখনী{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h3 class="text-center mb-4">প্রোফাইল আপডেট</h3>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger small">
+                                    {{ field.errors|join:", " }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    
+                    <button type="submit" class="btn btn-primary w-100">আপডেট করুন</button>
+                </form>
+                
+                <p class="text-center mt-3">
+                    <a href="{% url 'accounts:profile' %}">প্রোফাইলে ফিরুন</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}হোম - লেখনী{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+    <h1 class="display-4">
+        <i class="fas fa-feather-alt" style="color: #C45A3C;"></i>
+        লেখনী
+    </h1>
+    <p class="lead text-muted">বাংলা কবিতার আখর — এসো কবিতা লিখি</p>
+    
+    {% if user.is_authenticated %}
+        <p class="mt-3">স্বাগতম, <strong>{{ user.username }}</strong>!</p>
+        <div class="mt-3">
+            <a href="{% url 'accounts:profile' %}" class="btn btn-primary">প্রোফাইল</a>
+            <a href="{% url 'admin:index' %}" class="btn btn-outline-primary">প্রশাসন</a>
+            <form method="post" action="{% url 'logout' %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger">লগআউট</button>
+            </form>
+        </div>
+    {% else %}
+        <div class="mt-3">
+            <a href="{% url 'login' %}" class="btn btn-primary">লগইন</a>
+            <a href="{% url 'signup' %}" class="btn btn-outline-primary">নিবন্ধন</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
