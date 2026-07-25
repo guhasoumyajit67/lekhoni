@@ -52,18 +52,6 @@ class Poem(models.Model):
         related_name='poems'
     )
     
-    # Media
-    featured_image = models.ImageField(
-        upload_to='poem_images/',
-        blank=True,
-        null=True
-    )
-    audio_file = models.FileField(
-        upload_to='poem_audio/',
-        blank=True,
-        null=True
-    )
-    
     # Publication (auto-published)
     is_published = models.BooleanField(default=True)
     is_featured = models.BooleanField(default=False)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Poem, Comment, Like  # ← Remove 'Tag' from import
+from .models import Category, Poem, Comment, Like
 
 
 @admin.register(Category)
@@ -23,9 +23,6 @@ class PoemAdmin(admin.ModelAdmin):
         }),
         ('Category', {
             'fields': ('category',)
-        }),
-        ('Media', {
-            'fields': ('featured_image', 'audio_file')
         }),
         ('Publication', {
             'fields': ('is_published', 'is_featured', 'published_at')

@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
 from django.db import models
-from .models import Poem, Category, Comment, Like  # ← Removed Tag
+from .models import Poem, Category, Comment, Like
 from .forms import PoemForm, CommentForm
 
 
@@ -103,7 +103,6 @@ class PoemDetailView(DetailView):
         context['form'] = form
         return render(request, self.template_name, context)
 
-    
 
 class CreatePoemView(LoginRequiredMixin, CreateView):
     """Create a new poem"""
@@ -149,7 +148,6 @@ class DeletePoemView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user == poem.author
 
 
-# My Poems
 class MyPoemsView(LoginRequiredMixin, ListView):
     """List poems written by the logged-in user"""
     model = Poem

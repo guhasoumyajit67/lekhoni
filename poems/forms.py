@@ -6,15 +6,12 @@ class PoemForm(forms.ModelForm):
     class Meta:
         model = Poem
         fields = [
-            'title', 'content', 'category', 
-            'featured_image', 'audio_file'
+            'title', 'content', 'category'
         ]
         labels = {
             'title': 'শিরোনাম',
             'content': 'কবিতা',
-            'category': 'ক্যাটাগরি',
-            'featured_image': 'প্রচ্ছদ ছবি',
-            'audio_file': 'অডিও ফাইল',
+            'category': 'বিভাগ',
         }
         widgets = {
             'title': forms.TextInput(attrs={
@@ -28,12 +25,6 @@ class PoemForm(forms.ModelForm):
             }),
             'category': forms.Select(attrs={
                 'class': 'form-select'
-            }),
-            'featured_image': forms.FileInput(attrs={
-                'class': 'form-control'
-            }),
-            'audio_file': forms.FileInput(attrs={
-                'class': 'form-control'
             }),
         }
 
