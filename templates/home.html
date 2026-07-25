@@ -70,7 +70,7 @@
         <h3 class="text-center mb-4" style="font-family: 'Noto Serif Bengali', serif;">
             <span style="border-bottom: 4px solid #C45A3C; padding-bottom: 10px;">
                 <i class="fas fa-book-open me-2" style="color: #C45A3C;"></i>
-                ক্যাটাগরি অনুযায়ী
+                বিভাগ অনুযায়ী
             </span>
         </h3>
         <div class="row g-3 justify-content-center">
@@ -87,14 +87,14 @@
             </div>
             {% empty %}
             <div class="col-12 text-center">
-                <p class="text-muted">কোনো ক্যাটাগরি নেই।</p>
+                <p class="text-muted">কোনো বিভাগ নেই।</p>
             </div>
             {% endfor %}
         </div>
         {% if categories.count > 6 %}
         <div class="text-center mt-3">
             <a href="{% url 'category_list' %}" class="btn btn-sm btn-outline-teal">
-                সব ক্যাটাগরি দেখুন <i class="fas fa-arrow-right ms-1"></i>
+                সব বিভাগ দেখুন <i class="fas fa-arrow-right ms-1"></i>
             </a>
         </div>
         {% endif %}

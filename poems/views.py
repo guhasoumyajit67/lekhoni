@@ -76,7 +76,7 @@ class PoemDetailView(DetailView):
             comment.author = request.user
             comment.save()
             messages.success(request, 'আপনার মন্তব্য সফলভাবে যোগ হয়েছে!')
-            return redirect('poem_detail', slug=self.object.slug)  # ← Removed 'poems:'
+            return redirect('poem_detail', slug=self.object.slug)
         context = self.get_context_data(**kwargs)
         context['form'] = form
         return render(request, self.template_name, context)
@@ -88,7 +88,7 @@ class CreatePoemView(LoginRequiredMixin, CreateView):
     model = Poem
     form_class = PoemForm
     template_name = 'poems/create_poem.html'
-    success_url = reverse_lazy('my_poems')  # ← Fixed: removed 'poems:'
+    success_url = reverse_lazy('my_poems')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -101,7 +101,7 @@ class UpdatePoemView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Poem
     form_class = PoemForm
     template_name = 'poems/create_poem.html'
-    success_url = reverse_lazy('my_poems')  # ← Fixed: removed 'poems:'
+    success_url = reverse_lazy('my_poems')
 
     def form_valid(self, form):
         messages.success(self.request, 'আপনার কবিতা সফলভাবে আপডেট হয়েছে!')
@@ -116,7 +116,7 @@ class DeletePoemView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """Delete a poem"""
     model = Poem
     template_name = 'poems/confirm_delete.html'
-    success_url = reverse_lazy('my_poems')  # ← Fixed: removed 'poems:'
+    success_url = reverse_lazy('my_poems')
 
     def delete(self, request, *args, **kwargs):
         messages.success(request, 'আপনার কবিতা সফলভাবে ডিলিট হয়েছে!')
@@ -168,22 +168,6 @@ class CategoryDetailView(ListView):
         context = super().get_context_data(**kwargs)
         context['category'] = self.category
         context['category_poem_count'] = self.get_queryset().count()
-        return context
-
-
-class TagDetailView(ListView):
-    """List poems with a specific tag (disabled for now)"""
-    template_name = 'poems/tag_detail.html'
-    context_object_name = 'poems'
-    paginate_by = 9
-
-    def get_queryset(self):
-        return Poem.objects.none()  # ← Empty since tags are removed
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['tag'] = None
-        context['tag_poem_count'] = 0
         return context
 
 

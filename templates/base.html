@@ -67,17 +67,12 @@
                     {% if user.is_authenticated %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle px-3 rounded-pill hover-bg" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-user-astronaut fa-fw me-1" style="color: #FFB347;"></i> {{ user.username }}
+                            <i class="fas fa-user-edit fa-fw me-1" style="color: #C45A3C;"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 mt-2">
                             <li>
                                 <a class="dropdown-item py-2 rounded-2" href="{% url 'profile' %}">
                                     <i class="fas fa-user-cog me-2" style="color: #2A7F7A; width: 20px;"></i> প্রোফাইল
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item py-2 rounded-2" href="{% url 'my_poems' %}">
-                                    <i class="fas fa-pen-fancy me-2" style="color: #C45A3C; width: 20px;"></i> আমার কবিতা
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider"></li>
