@@ -14,74 +14,94 @@
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">
-                <i class="fas fa-feather-alt" style="color: #C45A3C;"></i>
-                লেখনী
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+                <i class="fas fa-feather-alt fa-fw" style="color: #C45A3C;"></i>
+                <span style="font-family: 'Noto Serif Bengali', serif;">লেখনী</span>
+                <small class="text-muted d-none d-sm-inline" style="font-size: 0.6rem; font-weight: 300; letter-spacing: 1px; color: #C45A3C !important;">
+                    এসো কবিতা লিখি
+                </small>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto gap-1 gap-lg-2">
                     <!-- Home -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">হোম</a>
+                        <a class="nav-link px-3 rounded-pill hover-bg" href="{% url 'home' %}">
+                            <i class="fas fa-home fa-fw me-1" style="color: #C45A3C;"></i> প্রথম পাতা
+                        </a>
                     </li>
                     
                     <!-- All Poems -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'poem_list' %}">সব কবিতা</a>
+                        <a class="nav-link px-3 rounded-pill hover-bg" href="{% url 'poem_list' %}">
+                            <i class="fas fa-book-open fa-fw me-1" style="color: #2A7F7A;"></i> সব কবিতা
+                        </a>
                     </li>
                     
                     <!-- Categories -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'category_list' %}">ক্যাটাগরি</a>
+                        <a class="nav-link px-3 rounded-pill hover-bg" href="{% url 'category_list' %}">
+                            <i class="fas fa-tags fa-fw me-1" style="color: #FFB347;"></i> বিভাগ
+                        </a>
                     </li>
                     
-                    <!-- My Poems (Only for logged in users) -->
+                    <!-- My Poems & Create (Only for logged in users) -->
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'my_poems' %}">
-                            <i class="fas fa-pen-fancy me-1" style="color: #C45A3C;"></i>
-                            আমার কবিতা
+                        <a class="nav-link px-3 rounded-pill hover-bg" href="{% url 'my_poems' %}">
+                            <i class="fas fa-pen-fancy fa-fw me-1" style="color: #C45A3C;"></i> আমার কবিতা
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'create_poem' %}">
-                            <i class="fas fa-plus-circle me-1" style="color: #C45A3C;"></i>
-                            নতুন কবিতা
+                        <a class="nav-link px-3 rounded-pill hover-bg" href="{% url 'create_poem' %}">
+                            <i class="fas fa-plus-circle fa-fw me-1" style="color: #2A7F7A;"></i> নতুন কবিতা
                         </a>
                     </li>
                     {% endif %}
                     
-                    <!-- User Dropdown (Profile & Logout only) -->
+                    <!-- User Dropdown -->
                     {% if user.is_authenticated %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-user-circle me-1"></i> {{ user.username }}
+                        <a class="nav-link dropdown-toggle px-3 rounded-pill hover-bg" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-astronaut fa-fw me-1" style="color: #FFB347;"></i> {{ user.username }}
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
+                        <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 mt-2">
                             <li>
-                                <a class="dropdown-item" href="{% url 'profile' %}">
-                                    <i class="fas fa-user me-2" style="color: #2A7F7A;"></i> প্রোফাইল
+                                <a class="dropdown-item py-2 rounded-2" href="{% url 'profile' %}">
+                                    <i class="fas fa-user-cog me-2" style="color: #2A7F7A; width: 20px;"></i> প্রোফাইল
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item py-2 rounded-2" href="{% url 'my_poems' %}">
+                                    <i class="fas fa-pen-fancy me-2" style="color: #C45A3C; width: 20px;"></i> আমার কবিতা
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form method="post" action="{% url 'logout' %}" class="dropdown-item p-0">
                                     {% csrf_token %}
-                                    <button type="submit" class="dropdown-item" style="color: #dc3545;">
-                                        <i class="fas fa-sign-out-alt me-2"></i> লগআউট
+                                    <button type="submit" class="dropdown-item py-2 rounded-2" style="color: #dc3545;">
+                                        <i class="fas fa-sign-out-alt me-2" style="width: 20px;"></i> লগআউট
                                     </button>
                                 </form>
                             </li>
                         </ul>
                     </li>
                     {% else %}
-                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">লগইন</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}">নিবন্ধন</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3 rounded-pill hover-bg" href="{% url 'login' %}">
+                            <i class="fas fa-sign-in-alt fa-fw me-1" style="color: #2A7F7A;"></i> লগইন
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3 rounded-pill hover-bg" href="{% url 'signup' %}">
+                            <i class="fas fa-user-plus fa-fw me-1" style="color: #C45A3C;"></i> নিবন্ধন
+                        </a>
+                    </li>
                     {% endif %}
                 </ul>
             </div>
