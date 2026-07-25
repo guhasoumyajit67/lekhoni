@@ -67,7 +67,7 @@
                     {% if user.is_authenticated %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle px-3 rounded-pill hover-bg" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-user-edit fa-fw me-1" style="color: #C45A3C;"></i>
+                            <i class="fas fa-user-edit fa-fw me-1" style="color: #C45A3C;"></i> {{ user.username }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 mt-2">
                             <li>

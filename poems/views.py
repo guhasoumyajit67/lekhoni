@@ -21,12 +21,34 @@ class HomeView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
         # Featured poem
         context['featured_poem'] = Poem.objects.filter(is_published=True, is_featured=True).first()
         if not context['featured_poem']:
             context['featured_poem'] = Poem.objects.filter(is_published=True).order_by('-published_at').first()
-        # Categories for sidebar
-        context['categories'] = Category.objects.all()
+        
+        # Categories sorted by poem count, with "অন্যান্য" last
+        categories = []
+        other_category = None
+        
+        # Get all categories with poem count
+        for category in Category.objects.all():
+            poem_count = Poem.objects.filter(category=category, is_published=True).count()
+            category.poem_count = poem_count
+            if category.name == 'অন্যান্য':
+                other_category = category
+            else:
+                categories.append(category)
+        
+        # Sort by poem count (descending)
+        categories.sort(key=lambda x: x.poem_count, reverse=True)
+        
+        # Add "অন্যান্য" at the end
+        if other_category:
+            categories.append(other_category)
+        
+        context['categories'] = categories
+        
         # Random poem for "Poem of the Day"
         context['random_poem'] = Poem.objects.filter(is_published=True).order_by('?').first()
         return context
@@ -147,11 +169,32 @@ class MyPoemsView(LoginRequiredMixin, ListView):
 
 
 class CategoryListView(ListView):
-    """List all categories"""
+    """List all categories with 'অন্যান্য' last"""
     model = Category
     template_name = 'poems/category_list.html'
     context_object_name = 'categories'
-    ordering = ['name']
+    
+    def get_queryset(self):
+        categories = []
+        other_category = None
+        
+        # Get all categories with poem count
+        for category in Category.objects.all():
+            poem_count = Poem.objects.filter(category=category, is_published=True).count()
+            category.poem_count = poem_count
+            if category.name == 'অন্যান্য':
+                other_category = category
+            else:
+                categories.append(category)
+        
+        # Sort by poem count (descending)
+        categories.sort(key=lambda x: x.poem_count, reverse=True)
+        
+        # Add "অন্যান্য" at the end
+        if other_category:
+            categories.append(other_category)
+        
+        return categories
 
 
 class CategoryDetailView(ListView):

@@ -1,28 +1,38 @@
 {% extends "base.html" %}
 {% load static %}
+{% load bengali_numbers %}
 
 {% block title %}হোম - লেখনী{% endblock %}
 
 {% block content %}
 
 <!-- Hero Section -->
-<div class="hero-section py-5">
-    <div class="container text-center">
-        <h1 class="display-4 fw-bold" style="font-family: 'Noto Serif Bengali', serif;">
-            <i class="fas fa-feather-alt" style="color: #C45A3C;"></i>
-            লেখনী
-        </h1>
-        <p class="lead text-muted">বাংলা কবিতার আখর — এসো কবিতা লিখি</p>
-        <div class="mt-4">
-            <a href="{% url 'create_poem' %}" class="btn btn-primary btn-lg me-2">
-                <i class="fas fa-pen-fancy"></i> নতুন কবিতা লিখুন
-            </a>
-            <a href="{% url 'poem_list' %}" class="btn btn-outline-secondary btn-lg">
-                <i class="fas fa-book-open"></i> সব কবিতা দেখুন
-            </a>
+<section class="hero-section py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <h1 class="display-3 fw-bold" style="font-family: 'Noto Serif Bengali', serif; color: #1A1A1A;">
+                    <i class="fas fa-feather-alt me-3" style="color: #C45A3C;"></i>
+                    লেখনী
+                </h1>
+                <p class="lead text-muted mt-3" style="font-size: 1.25rem;">
+                    বাংলা কবিতার আখর — যেখানে কলম কথা বলে, আর আবেগ হয়ে ওঠে ছন্দ
+                </p>
+                <div class="mt-4">
+                    <a href="{% url 'create_poem' %}" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-pen-fancy me-2"></i> নতুন কবিতা লিখুন
+                    </a>
+                    <a href="{% url 'poem_list' %}" class="btn btn-outline-teal btn-lg">
+                        <i class="fas fa-book-open me-2"></i> সব কবিতা দেখুন
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-5 d-none d-lg-block text-end">
+                <i class="fas fa-feather-alt" style="font-size: 150px; color: #C45A3C; opacity: 0.2;"></i>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
 <!-- Featured Poem -->
 {% if featured_poem %}
@@ -48,9 +58,9 @@
                 <p class="text-muted small">
                     <i class="fas fa-user me-1"></i> {{ featured_poem.author.username }}
                     <span class="mx-2">|</span>
-                    <i class="fas fa-calendar me-1"></i> {{ featured_poem.published_at|date:"d F, Y" }}
+                    <i class="fas fa-calendar me-1"></i> {{ featured_poem.published_at|bengali_date }}
                     <span class="mx-2">|</span>
-                    <i class="fas fa-eye me-1"></i> {{ featured_poem.views }} বার দেখা
+                    <i class="fas fa-eye me-1"></i> {{ featured_poem.views|bengali_num|default:"০" }} বার দেখা
                 </p>
                 <div class="poem-text drop-cap">
                     {{ featured_poem.content|truncatewords:60|linebreaks }}
@@ -64,23 +74,27 @@
 </section>
 {% endif %}
 
-<!-- Category Quick Links -->
-<section class="category-section py-4">
+<!-- Categories Section -->
+<section class="categories-section py-4">
     <div class="container">
-        <h3 class="text-center mb-4" style="font-family: 'Noto Serif Bengali', serif;">
-            <span style="border-bottom: 4px solid #C45A3C; padding-bottom: 10px;">
-                <i class="fas fa-book-open me-2" style="color: #C45A3C;"></i>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 style="font-family: 'Noto Serif Bengali', serif; margin: 0;">
+                <i class="fas fa-tags me-2" style="color: #C45A3C;"></i>
                 বিভাগ অনুযায়ী
-            </span>
-        </h3>
-        <div class="row g-3 justify-content-center">
-            {% for category in categories|slice:":6" %}
-            <div class="col-6 col-md-3 col-lg-2">
+            </h3>
+            <a href="{% url 'category_list' %}" class="btn btn-sm btn-outline-teal">
+                সব বিভাগ দেখুন <i class="fas fa-arrow-right ms-1"></i>
+            </a>
+        </div>
+        <div class="row g-3">
+            {% for category in categories|slice:":12" %}
+            <div class="col-4 col-md-3 col-lg-2">
                 <a href="{% url 'category_detail' category.slug %}" class="text-decoration-none">
                     <div class="card text-center border-0 shadow-sm h-100 hover-lift">
                         <div class="card-body py-3">
                             <i class="fas {{ category.icon|default:'fa-folder-open' }} fs-2" style="color: #2A7F7A;"></i>
                             <p class="mb-0 mt-2 fw-semibold text-dark small">{{ category.name }}</p>
+                            <small class="text-muted">{{ category.poem_count|bengali_num|default:"০" }}টি কবিতা</small>
                         </div>
                     </div>
                 </a>
@@ -91,25 +105,21 @@
             </div>
             {% endfor %}
         </div>
-        {% if categories.count > 6 %}
-        <div class="text-center mt-3">
-            <a href="{% url 'category_list' %}" class="btn btn-sm btn-outline-teal">
-                সব বিভাগ দেখুন <i class="fas fa-arrow-right ms-1"></i>
-            </a>
-        </div>
-        {% endif %}
     </div>
 </section>
 
 <!-- Latest Poems -->
 <section class="latest-poems py-5">
     <div class="container">
-        <h3 class="text-center mb-4" style="font-family: 'Noto Serif Bengali', serif;">
-            <span style="border-bottom: 4px solid #2A7F7A; padding-bottom: 10px;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 style="font-family: 'Noto Serif Bengali', serif; margin: 0;">
                 <i class="fas fa-clock me-2" style="color: #2A7F7A;"></i>
                 সর্বশেষ কবিতা
-            </span>
-        </h3>
+            </h3>
+            <a href="{% url 'poem_list' %}" class="btn btn-sm btn-outline-teal">
+                সব দেখুন <i class="fas fa-arrow-right ms-1"></i>
+            </a>
+        </div>
         
         <div class="row g-4">
             {% for poem in poems %}
@@ -129,20 +139,16 @@
                         <p class="text-muted small">
                             <i class="fas fa-user me-1"></i> {{ poem.author.username }}
                             <span class="mx-1">|</span>
-                            <i class="fas fa-calendar me-1"></i> {{ poem.published_at|date:"d M, Y" }}
+                            <i class="fas fa-calendar me-1"></i> {{ poem.published_at|bengali_date }}
+                            <span class="mx-1">|</span>
+                            <i class="fas fa-eye me-1"></i> {{ poem.views|bengali_num|default:"০" }}
                         </p>
-                        <p class="card-text" style="font-size: 0.95rem;">
-                            {{ poem.content|truncatewords:25|linebreaks }}
+                        <p class="card-text" style="font-size: 0.9rem; line-height: 1.6;">
+                            {{ poem.content|truncatewords:20|linebreaks }}
                         </p>
-                        <div class="d-flex justify-content-between align-items-center mt-2">
-                            <a href="{% url 'poem_detail' poem.slug %}" class="btn btn-sm btn-outline-teal">
-                                পড়ুন <i class="fas fa-arrow-right ms-1"></i>
-                            </a>
-                            <small class="text-muted">
-                                <i class="fas fa-heart me-1" style="color: #C45A3C;"></i> {{ poem.likes.count }}
-                                <i class="fas fa-eye ms-2 me-1"></i> {{ poem.views }}
-                            </small>
-                        </div>
+                        <a href="{% url 'poem_detail' poem.slug %}" class="btn btn-sm btn-outline-teal mt-2">
+                            পড়ুন <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -208,6 +214,9 @@
                         — <a href="{% url 'poem_detail' random_poem.slug %}" style="color: #2A7F7A; text-decoration: none;">
                             {{ random_poem.title }}
                         </a>
+                        <span style="color: rgba(255, 255, 255, 0.4);">
+                            ({{ random_poem.author.username }})
+                        </span>
                     </footer>
                 </blockquote>
             </div>
@@ -217,27 +226,30 @@
 {% endif %}
 
 <!-- About Teaser -->
-<section class="about-teaser py-5">
+<section class="about-teaser py-5" style="background: #F5F0E8;">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8 text-center">
+        <div class="row justify-content-between align-items-center">
+            <div class="col-md-7">
                 <h3 style="font-family: 'Noto Serif Bengali', serif; color: #1A1A1A;">
                     <i class="fas fa-info-circle me-2" style="color: #2A7F7A;"></i>
                     লেখনী সম্পর্কে
                 </h3>
-                <p class="text-muted mt-3">
-                    <strong>লেখনী</strong> একটি বাংলা কবিতা ব্লগ। আমাদের লক্ষ্য হলো বাংলা কবিতার চর্চাকে 
-                    আরও জনপ্রিয় করা এবং নতুন কবি-কবয়িত্রীদের একটি প্ল্যাটফর্ম দেওয়া।
-                    <br>
-                    <span style="color: #C45A3C; font-style: italic;">
-                        "এসো কবিতা লিখি — বাংলা কবিতার আখর"
-                    </span>
+                <p class="text-muted mt-3" style="font-size: 1.05rem;">
+                    <strong>লেখনী</strong> একটি বাংলা কবিতার ব্লগ। আমাদের লক্ষ্য হলো বাংলা কবিতার চর্চাকে 
+                    আরও জনপ্রিয় করা এবং নতুন কবিদের একটি প্ল্যাটফর্ম দেওয়া।
+                </p>
+                <p style="color: #C45A3C; font-style: italic; font-size: 1.1rem;">
+                    "এসো কবিতা লিখি — বাংলা কবিতার আখর"
                 </p>
                 <a href="{% url 'about' %}" class="btn btn-outline-teal mt-2">
                     আরও জানুন <i class="fas fa-arrow-right ms-2"></i>
                 </a>
             </div>
+            <div class="col-md-4 d-none d-md-block text-end">
+                <i class="fas fa-feather-alt" style="font-size: 80px; color: #C45A3C; opacity: 0.3;"></i>
+            </div>
         </div>
     </div>
 </section>
+
 {% endblock %}

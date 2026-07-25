@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load bengali_numbers %}
 
 {% block title %}সব কবিতা - লেখনী{% endblock %}
 
@@ -27,7 +28,9 @@
                     <p class="text-muted small">
                         <i class="fas fa-user me-1"></i> {{ poem.author.username }}
                         <span class="mx-1">|</span>
-                        <i class="fas fa-calendar me-1"></i> {{ poem.published_at|date:"d M, Y" }}
+                        <i class="fas fa-calendar me-1"></i> {{ poem.published_at|bengali_date }}
+                        <span class="mx-1">|</span>
+                        <i class="fas fa-eye me-1"></i> {{ poem.views|bengali_num|default:"০" }}
                     </p>
                     <p class="card-text" style="font-size: 0.95rem;">
                         {{ poem.content|truncatewords:20|linebreaks }}
@@ -37,8 +40,8 @@
                             পড়ুন <i class="fas fa-arrow-right ms-1"></i>
                         </a>
                         <small class="text-muted">
-                            <i class="fas fa-heart me-1" style="color: #C45A3C;"></i> {{ poem.likes.count }}
-                            <i class="fas fa-eye ms-2 me-1"></i> {{ poem.views }}
+                            <i class="fas fa-heart me-1" style="color: #C45A3C;"></i> {{ poem.likes.count|bengali_num|default:"০" }}
+                            <i class="fas fa-eye ms-2 me-1"></i> {{ poem.views|bengali_num|default:"০" }}
                         </small>
                     </div>
                 </div>
@@ -46,7 +49,18 @@
         </div>
         {% empty %}
         <div class="col-12 text-center py-5">
-            <p class="text-muted">কোনো কবিতা নেই।</p>
+            <i class="fas fa-feather-alt" style="font-size: 48px; color: #ddd;"></i>
+            <h4 class="mt-3 text-muted">কোনো কবিতা নেই</h4>
+            <p class="text-muted">শীঘ্রই নতুন কবিতা আসছে!</p>
+            {% if user.is_authenticated %}
+            <a href="{% url 'create_poem' %}" class="btn btn-primary mt-2">
+                <i class="fas fa-plus-circle me-2"></i> প্রথম কবিতা লিখুন
+            </a>
+            {% else %}
+            <a href="{% url 'login' %}" class="btn btn-primary mt-2">
+                <i class="fas fa-sign-in-alt me-2"></i> লগইন করে কবিতা লিখুন
+            </a>
+            {% endif %}
         </div>
         {% endfor %}
     </div>
