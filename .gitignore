@@ -1,0 +1,20 @@
+# Virtual Environment
+.venv/
+
+# Databases (Local Development Data)
+*.sqlite3
+
+# Python Compiled Cache (Speeds up execution locally)
+**/__pycache__/
+*.pyc
+
+# Local Editor State (VS Code window settings)
+.vscode/
+
+# Operating System Files
+.DS_Store
+
+global_items.csv
+import_items.py
+
+.env
