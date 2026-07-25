@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}{% if form.instance.pk %}কবিতা সম্পাদনা{% else %}নতুন কবিতা{% endif %} - লেখনী{% endblock %}
+
+{% block content %}
+<div class="py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h3 class="text-center mb-4" style="font-family: 'Noto Serif Bengali', serif;">
+                        {% if form.instance.pk %}
+                            <i class="fas fa-edit me-2" style="color: #2A7F7A;"></i>
+                            কবিতা সম্পাদনা
+                        {% else %}
+                            <i class="fas fa-pen-fancy me-2" style="color: #C45A3C;"></i>
+                            নতুন কবিতা
+                        {% endif %}
+                    </h3>
+                    
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">{{ field.label }}</label>
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <div class="form-text small text-muted">{{ field.help_text }}</div>
+                                {% endif %}
+                                {% if field.errors %}
+                                    <div class="text-danger small">
+                                        {{ field.errors|join:", " }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>
+                                {% if form.instance.pk %}আপডেট করুন{% else %}প্রকাশ করুন{% endif %}
+                            </button>
+                            <a href="{% url 'my_poems' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i> বাতিল করুন
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

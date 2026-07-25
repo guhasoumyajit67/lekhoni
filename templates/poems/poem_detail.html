@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}{{ category.name }} - লেখনী{% endblock %}
+
+{% block content %}
+<div class="py-4">
+    <div class="mb-4">
+        <h2 style="font-family: 'Noto Serif Bengali', serif;">
+            <i class="fas {{ category.icon|default:'fa-folder-open' }} me-2" style="color: #2A7F7A;"></i>
+            {{ category.name }}
+        </h2>
+        {% if category.description %}
+        <p class="text-muted">{{ category.description }}</p>
+        {% endif %}
+        <p class="small text-muted">{{ category_poem_count }}টি কবিতা</p>
+    </div>
+    
+    <div class="row g-4">
+        {% for poem in poems %}
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm hover-lift">
+                <div class="card-body">
+                    <span class="badge mb-2" style="background: #2A7F7A; padding: 4px 12px;">
+                        {{ poem.category.name }}
+                    </span>
+                    <h5 class="card-title" style="font-family: 'Noto Serif Bengali', serif;">
+                        <a href="{% url 'poem_detail' poem.slug %}" class="text-decoration-none text-dark">
+                            {{ poem.title }}
+                        </a>
+                    </h5>
+                    <p class="text-muted small">
+                        <i class="fas fa-user me-1"></i> {{ poem.author.username }}
+                        <span class="mx-1">|</span>
+                        <i class="fas fa-calendar me-1"></i> {{ poem.published_at|date:"d M, Y" }}
+                    </p>
+                    <p class="card-text" style="font-size: 0.95rem;">
+                        {{ poem.content|truncatewords:20|linebreaks }}
+                    </p>
+                    <a href="{% url 'poem_detail' poem.slug %}" class="btn btn-sm btn-outline-teal">
+                        পড়ুন <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">এই ক্যাটাগরিতে কোনো কবিতা নেই।</p>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Pagination -->
+    {% if poems.has_other_pages %}
+    <nav class="mt-5">
+        <ul class="pagination justify-content-center">
+            {% if poems.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ poems.previous_page_number }}">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+            </li>
+            {% endif %}
+            
+            {% for num in poems.paginator.page_range %}
+            <li class="page-item {% if poems.number == num %}active{% endif %}">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endfor %}
+            
+            {% if poems.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ poems.next_page_number }}">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}
