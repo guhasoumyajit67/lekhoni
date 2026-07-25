@@ -76,11 +76,12 @@ class PoemDetailView(DetailView):
             comment.author = request.user
             comment.save()
             messages.success(request, 'আপনার মন্তব্য সফলভাবে যোগ হয়েছে!')
-            return redirect('poems:poem_detail', slug=self.object.slug)
+            return redirect('poem_detail', slug=self.object.slug)  # ← Removed 'poems:'
         context = self.get_context_data(**kwargs)
         context['form'] = form
         return render(request, self.template_name, context)
 
+    
 
 class CreatePoemView(LoginRequiredMixin, CreateView):
     """Create a new poem"""
@@ -126,6 +127,7 @@ class DeletePoemView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user == poem.author
 
 
+# My Poems
 class MyPoemsView(LoginRequiredMixin, ListView):
     """List poems written by the logged-in user"""
     model = Poem
@@ -140,8 +142,7 @@ class MyPoemsView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         poems = self.get_queryset()
         context['total_poems'] = poems.count()
-        context['published_poems'] = poems.filter(is_published=True).count()
-        context['draft_poems'] = poems.filter(is_published=False).count()
+        context['total_views'] = sum(poem.views for poem in poems)
         return context
 
 

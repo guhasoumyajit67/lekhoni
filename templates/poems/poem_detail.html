@@ -1,90 +1,60 @@
 {% extends "base.html" %}
 
-{% block title %}{{ category.name }} - লেখনী{% endblock %}
+{% block title %}{{ poem.title }} - লেখনী{% endblock %}
 
 {% block content %}
 <div class="py-4">
-    <div class="mb-4">
-        <h2 style="font-family: 'Noto Serif Bengali', serif;">
-            <i class="fas {{ category.icon|default:'fa-folder-open' }} me-2" style="color: #2A7F7A;"></i>
-            {{ category.name }}
-        </h2>
-        {% if category.description %}
-        <p class="text-muted">{{ category.description }}</p>
-        {% endif %}
-        <p class="small text-muted">{{ category_poem_count }}টি কবিতা</p>
+    <div class="mb-3">
+        <a href="{% url 'my_poems' %}" class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-arrow-left me-1"></i> ফিরে যান
+        </a>
     </div>
-    
-    <div class="row g-4">
-        {% for poem in poems %}
-        <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm hover-lift">
-                <div class="card-body">
-                    <span class="badge mb-2" style="background: #2A7F7A; padding: 4px 12px;">
-                        {{ poem.category.name }}
-                    </span>
-                    <h5 class="card-title" style="font-family: 'Noto Serif Bengali', serif;">
-                        {% if poem.slug %}
-                            <a href="{% url 'poem_detail' poem.slug %}" class="text-decoration-none text-dark">
-                                {{ poem.title }}
-                            </a>
-                        {% else %}
-                            <span class="text-dark">{{ poem.title }}</span>
-                        {% endif %}
-                    </h5>
-                    <p class="text-muted small">
-                        <i class="fas fa-user me-1"></i> {{ poem.author.username }}
-                        <span class="mx-1">|</span>
-                        <i class="fas fa-calendar me-1"></i> {{ poem.published_at|date:"d M, Y" }}
-                    </p>
-                    <p class="card-text" style="font-size: 0.95rem;">
-                        {{ poem.content|truncatewords:20|linebreaks }}
-                    </p>
-                    {% if poem.slug %}
-                        <a href="{% url 'poem_detail' poem.slug %}" class="btn btn-sm btn-outline-teal">
-                            পড়ুন <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                    {% else %}
-                        <span class="text-muted small">(স্লাগ নেই)</span>
-                    {% endif %}
-                </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h1 class="display-6" style="font-family: 'Noto Serif Bengali', serif;">
+                {{ poem.title }}
+            </h1>
+            <p class="text-muted small">
+                <i class="fas fa-user me-1"></i> {{ poem.author.username }}
+                <span class="mx-2">|</span>
+                <i class="fas fa-calendar me-1"></i> {{ poem.published_at|date:"d F, Y" }}
+                <span class="mx-2">|</span>
+                <i class="fas fa-eye me-1"></i> {{ poem.views }} বার দেখা
+            </p>
+            <hr>
+            <div style="font-family: 'Noto Serif Bengali', serif; font-size: 1.2rem; line-height: 2.2; white-space: pre-line;">
+                {{ poem.content }}
             </div>
+
+            {% if poem.featured_image %}
+            <div class="mt-4">
+                <img src="{{ poem.featured_image.url }}" alt="{{ poem.title }}" class="img-fluid rounded">
+            </div>
+            {% endif %}
+
+            {% if poem.audio_file %}
+            <div class="mt-4 p-4" style="background: #f8f9fa; border-radius: 8px;">
+                <h5 style="color: #C45A3C;">
+                    <i class="fas fa-headphones me-2"></i> শুনুন
+                </h5>
+                <audio controls class="w-100">
+                    <source src="{{ poem.audio_file.url }}" type="audio/mpeg">
+                </audio>
+            </div>
+            {% endif %}
+
+            {% if user == poem.author %}
+            <div class="mt-3">
+                <a href="{% url 'update_poem' poem.slug %}" class="btn btn-primary">
+                    <i class="fas fa-edit me-2"></i> সম্পাদনা
+                </a>
+                <a href="{% url 'delete_poem' poem.slug %}" class="btn btn-danger">
+                    <i class="fas fa-trash me-2"></i> ডিলিট
+                </a>
+            </div>
+            {% endif %}
         </div>
-        {% empty %}
-        <div class="col-12 text-center py-5">
-            <i class="fas fa-folder-open" style="font-size: 48px; color: #ddd;"></i>
-            <p class="text-muted mt-3">এই ক্যাটাগরিতে কোনো কবিতা নেই।</p>
-        </div>
-        {% endfor %}
     </div>
-    
-    <!-- Pagination -->
-    {% if poems.has_other_pages %}
-    <nav class="mt-5">
-        <ul class="pagination justify-content-center">
-            {% if poems.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ poems.previous_page_number }}">
-                    <i class="fas fa-chevron-left"></i>
-                </a>
-            </li>
-            {% endif %}
-            
-            {% for num in poems.paginator.page_range %}
-            <li class="page-item {% if poems.number == num %}active{% endif %}">
-                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-            </li>
-            {% endfor %}
-            
-            {% if poems.has_next %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ poems.next_page_number }}">
-                    <i class="fas fa-chevron-right"></i>
-                </a>
-            </li>
-            {% endif %}
-        </ul>
-    </nav>
-    {% endif %}
 </div>
 {% endblock %}
