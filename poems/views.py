@@ -4,8 +4,8 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
-from django.db import models  # ← ADD THIS
-from .models import Poem, Category, Tag, Comment, Like  # ← ADD Tag here
+from django.db import models
+from .models import Poem, Category, Comment, Like  # ← Removed Tag
 from .forms import PoemForm, CommentForm
 
 
@@ -87,7 +87,7 @@ class CreatePoemView(LoginRequiredMixin, CreateView):
     model = Poem
     form_class = PoemForm
     template_name = 'poems/create_poem.html'
-    success_url = reverse_lazy('poems:my_poems')
+    success_url = reverse_lazy('my_poems')  # ← Fixed: removed 'poems:'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -100,7 +100,7 @@ class UpdatePoemView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Poem
     form_class = PoemForm
     template_name = 'poems/create_poem.html'
-    success_url = reverse_lazy('poems:my_poems')
+    success_url = reverse_lazy('my_poems')  # ← Fixed: removed 'poems:'
 
     def form_valid(self, form):
         messages.success(self.request, 'আপনার কবিতা সফলভাবে আপডেট হয়েছে!')
@@ -115,7 +115,7 @@ class DeletePoemView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """Delete a poem"""
     model = Poem
     template_name = 'poems/confirm_delete.html'
-    success_url = reverse_lazy('poems:my_poems')
+    success_url = reverse_lazy('my_poems')  # ← Fixed: removed 'poems:'
 
     def delete(self, request, *args, **kwargs):
         messages.success(request, 'আপনার কবিতা সফলভাবে ডিলিট হয়েছে!')
@@ -171,19 +171,18 @@ class CategoryDetailView(ListView):
 
 
 class TagDetailView(ListView):
-    """List poems with a specific tag"""
+    """List poems with a specific tag (disabled for now)"""
     template_name = 'poems/tag_detail.html'
     context_object_name = 'poems'
     paginate_by = 9
 
     def get_queryset(self):
-        self.tag = get_object_or_404(Tag, slug=self.kwargs['slug'])
-        return Poem.objects.filter(tags=self.tag, is_published=True).order_by('-published_at')
+        return Poem.objects.none()  # ← Empty since tags are removed
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['tag'] = self.tag
-        context['tag_poem_count'] = self.get_queryset().count()
+        context['tag'] = None
+        context['tag_poem_count'] = 0
         return context
 
 
@@ -199,8 +198,6 @@ class SearchView(ListView):
             return Poem.objects.filter(
                 models.Q(title__icontains=query) |
                 models.Q(content__icontains=query) |
-                models.Q(english_translation__icontains=query) |
-                models.Q(pen_note__icontains=query) |
                 models.Q(category__name__icontains=query) |
                 models.Q(author__username__icontains=query),
                 is_published=True

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}লগইন - লেখনী{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h3 class="text-center mb-4">
+                    <i class="fas fa-sign-in-alt me-2" style="color: #2A7F7A;"></i>
+                    লগইন করুন
+                </h3>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label fw-bold">ইউজারনেম</label>
+                        <input type="text" name="username" id="id_username" class="form-control" 
+                               placeholder="আপনার ইউজারনেম" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_password" class="form-label fw-bold">পাসওয়ার্ড</label>
+                        <input type="password" name="password" id="id_password" class="form-control" 
+                               placeholder="আপনার পাসওয়ার্ড" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-sign-in-alt me-2"></i> লগইন করুন
+                    </button>
+                </form>
+                
+                <p class="text-center mt-3">
+                    নতুন অ্যাকাউন্ট? 
+                    <a href="{% url 'signup' %}" style="color: #2A7F7A;">নিবন্ধন করুন</a>
+                </p>
+                <p class="text-center">
+                    <a href="{% url 'password_reset' %}" style="color: #C45A3C;">পাসওয়ার্ড ভুলে গেছেন?</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

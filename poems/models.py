@@ -7,12 +7,10 @@ from django.utils.text import slugify
 
 class Category(models.Model):
     """Poetry category model"""
-    name = models.CharField(max_length=100, help_text="Category name in Bengali")
-    slug = models.SlugField(unique=True, blank=True, help_text="URL-friendly version")
-    description = models.TextField(blank=True, help_text="Brief category description")
-    icon = models.CharField(max_length=50, blank=True, help_text="Font Awesome icon class")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True, blank=True)
+    description = models.TextField(blank=True)
+    icon = models.CharField(max_length=50, blank=True)
 
     class Meta:
         verbose_name_plural = "Categories"
@@ -30,35 +28,13 @@ class Category(models.Model):
         super().save(*args, **kwargs)
 
 
-class Tag(models.Model):
-    """Poetry tag model"""
-    name = models.CharField(max_length=50, help_text="Tag name in Bengali")
-    slug = models.SlugField(unique=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ['name']
-
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse('poems:tag_detail', args=[self.slug])
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
-
-
 class Poem(models.Model):
     """Main Poem model"""
     
     # Core fields
-    title = models.CharField(max_length=255, help_text="Poem title in Bengali")
+    title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True, max_length=255, blank=True)
-    content = models.TextField(help_text="The poem content")
-    english_translation = models.TextField(blank=True, help_text="Optional English translation")
+    content = models.TextField()
     
     # Author
     author = models.ForeignKey(
@@ -67,7 +43,7 @@ class Poem(models.Model):
         related_name='poems'
     )
     
-    # Category & Tags
+    # Category
     category = models.ForeignKey(
         Category,
         on_delete=models.SET_NULL,
@@ -75,40 +51,27 @@ class Poem(models.Model):
         blank=True,
         related_name='poems'
     )
-    tags = models.ManyToManyField(Tag, blank=True, related_name='poems')
     
-    # "Lekhoni's Note" - Writer's inspiration
-    pen_note = models.TextField(
-        blank=True,
-        help_text="লেখনীর কথা - Your inspiration behind this poem"
-    )
-    
-    # Media (future use)
+    # Media
     featured_image = models.ImageField(
         upload_to='poem_images/',
         blank=True,
-        null=True,
-        help_text="Cover image for the poem"
+        null=True
     )
     audio_file = models.FileField(
         upload_to='poem_audio/',
         blank=True,
-        null=True,
-        help_text="Audio recitation (MP3 format)"
+        null=True
     )
     
-    # Publication status
-    is_published = models.BooleanField(default=False, help_text="Publish this poem")
-    is_featured = models.BooleanField(default=False, help_text="Feature on homepage")
+    # Publication (auto-published)
+    is_published = models.BooleanField(default=True)
+    is_featured = models.BooleanField(default=False)
     
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     published_at = models.DateTimeField(default=timezone.now)
-    
-    # SEO
-    meta_description = models.CharField(max_length=160, blank=True)
-    meta_keywords = models.CharField(max_length=255, blank=True)
     
     # Analytics
     views = models.PositiveIntegerField(default=0)
@@ -128,10 +91,20 @@ class Poem(models.Model):
         return reverse('poems:poem_detail', args=[self.slug])
 
     def save(self, *args, **kwargs):
+        # Auto-generate unique slug
         if not self.slug:
-            self.slug = slugify(self.title)
-        if self.is_published and not self.published_at:
-            self.published_at = timezone.now()
+            base_slug = slugify(self.title)
+            slug = base_slug
+            counter = 1
+            # Keep checking until we find a unique slug
+            while Poem.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        
+        # Auto-publish all poems
+        self.is_published = True
+        
         super().save(*args, **kwargs)
 
     def increment_views(self):
