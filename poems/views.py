@@ -5,6 +5,8 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
 from django.db import models
+from django.utils import timezone
+from datetime import timedelta
 from .models import Poem, Category, Comment, Like
 from .forms import PoemForm, CommentForm
 
@@ -31,7 +33,6 @@ class HomeView(ListView):
         categories = []
         other_category = None
         
-        # Get all categories with poem count
         for category in Category.objects.all():
             poem_count = Poem.objects.filter(category=category, is_published=True).count()
             category.poem_count = poem_count
@@ -40,17 +41,35 @@ class HomeView(ListView):
             else:
                 categories.append(category)
         
-        # Sort by poem count (descending)
         categories.sort(key=lambda x: x.poem_count, reverse=True)
         
-        # Add "অন্যান্য" at the end
         if other_category:
             categories.append(other_category)
         
         context['categories'] = categories
         
-        # Random poem for "Poem of the Day"
-        context['random_poem'] = Poem.objects.filter(is_published=True).order_by('?').first()
+        # ============================================
+        # POEM OF THE DAY (Most popular in last 24 hours)
+        # ============================================
+        twenty_four_hours_ago = timezone.now() - timedelta(hours=24)
+        context['poem_of_the_day'] = Poem.objects.filter(
+            is_published=True,
+            published_at__gte=twenty_four_hours_ago
+        ).order_by('-views').first()
+        
+        # If no poem in last 24 hours, fallback to latest published
+        if not context['poem_of_the_day']:
+            context['poem_of_the_day'] = Poem.objects.filter(is_published=True).order_by('-published_at').first()
+        
+        # ============================================
+        # MOST POPULAR POEMS IN LAST 7 DAYS
+        # ============================================
+        seven_days_ago = timezone.now() - timedelta(days=7)
+        context['popular_poems'] = Poem.objects.filter(
+            is_published=True,
+            published_at__gte=seven_days_ago
+        ).order_by('-views')[:3]
+        
         return context
 
 
@@ -176,7 +195,6 @@ class CategoryListView(ListView):
         categories = []
         other_category = None
         
-        # Get all categories with poem count
         for category in Category.objects.all():
             poem_count = Poem.objects.filter(category=category, is_published=True).count()
             category.poem_count = poem_count
@@ -185,10 +203,8 @@ class CategoryListView(ListView):
             else:
                 categories.append(category)
         
-        # Sort by poem count (descending)
         categories.sort(key=lambda x: x.poem_count, reverse=True)
         
-        # Add "অন্যান্য" at the end
         if other_category:
             categories.append(other_category)
         

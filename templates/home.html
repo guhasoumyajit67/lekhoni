@@ -34,45 +34,54 @@
     </div>
 </section>
 
-<!-- Featured Poem -->
-{% if featured_poem %}
-<section class="featured-section py-4">
+<!-- Most Popular Poems (Last 7 Days) -->
+<section class="popular-poems py-5" style="background: #f5f0e8;">
     <div class="container">
-        <div class="card featured-card border-0 shadow-lg">
-            <div class="card-body p-5">
-                <div class="d-flex align-items-center gap-2 mb-3">
-                    <span class="badge" style="background: #C45A3C; padding: 6px 14px;">
-                        <i class="fas fa-star me-1"></i> বিশেষ কবিতা
-                    </span>
-                    {% if featured_poem.category %}
-                    <span class="badge" style="background: #2A7F7A; padding: 6px 14px;">
-                        <i class="fas fa-folder-open me-1"></i> {{ featured_poem.category.name }}
-                    </span>
-                    {% endif %}
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 style="font-family: 'Noto Serif Bengali', serif; margin: 0;">
+                <i class="fas fa-fire me-2" style="color: #C45A3C;"></i>
+                জনপ্রিয় কবিতা
+                <small style="font-size: 0.6rem; color: #888; font-weight: 400; display: block; margin-top: -2px;">
+                    গত ৭ দিনে
+                </small>
+            </h3>
+        </div>
+        
+        <div class="row g-4">
+            {% for poem in popular_poems %}
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm hover-lift" style="border-radius: 12px; overflow: hidden;">
+                    <div class="card-body p-3">
+                        <h5 class="card-title" style="font-family: 'Noto Serif Bengali', serif; font-size: 1.1rem; margin-bottom: 4px;">
+                            <a href="{% url 'poem_detail' poem.slug %}" class="text-decoration-none text-dark">
+                                {{ poem.title }}
+                            </a>
+                        </h5>
+                        <p class="text-muted small" style="margin-bottom: 4px; font-size: 0.75rem;">
+                            <i class="fas fa-user me-1"></i> {{ poem.author.username }}
+                            <span class="mx-1">|</span>
+                            <i class="fas fa-calendar me-1"></i> {{ poem.published_at|bengali_date }}
+                        </p>
+                        <div class="poem-preview" style="font-size: 0.9rem; line-height: 1.6; max-height: 200px; overflow-y: auto; padding-right: 4px; margin-bottom: 6px; border-top: 1px solid #f0f0f0; padding-top: 6px;">
+                            {{ poem.content|linebreaks }}
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-1">
+                            <small class="text-muted" style="font-size: 0.7rem;">
+                                <i class="fas fa-heart me-1" style="color: #C45A3C;"></i> {{ poem.likes.count|bengali_num|default:"০" }}
+                                <i class="fas fa-eye ms-2 me-1"></i> {{ poem.views|bengali_num|default:"০" }}
+                            </small>
+                        </div>
+                    </div>
                 </div>
-                <h2 class="card-title" style="font-family: 'Noto Serif Bengali', serif;">
-                    <a href="{% url 'poem_detail' featured_poem.slug %}" class="text-decoration-none text-dark">
-                        {{ featured_poem.title }}
-                    </a>
-                </h2>
-                <p class="text-muted small">
-                    <i class="fas fa-user me-1"></i> {{ featured_poem.author.username }}
-                    <span class="mx-2">|</span>
-                    <i class="fas fa-calendar me-1"></i> {{ featured_poem.published_at|bengali_date }}
-                    <span class="mx-2">|</span>
-                    <i class="fas fa-eye me-1"></i> {{ featured_poem.views|bengali_num|default:"০" }} বার দেখা
-                </p>
-                <div class="poem-text drop-cap">
-                    {{ featured_poem.content|truncatewords:60|linebreaks }}
-                </div>
-                <a href="{% url 'poem_detail' featured_poem.slug %}" class="btn btn-outline-teal mt-3">
-                    পুরো কবিতা পড়ুন <i class="fas fa-arrow-right ms-2"></i>
-                </a>
             </div>
+            {% empty %}
+            <div class="col-12 text-center py-4">
+                <p class="text-muted">গত ৭ দিনে কোনো জনপ্রিয় কবিতা নেই।</p>
+            </div>
+            {% endfor %}
         </div>
     </div>
 </section>
-{% endif %}
 
 <!-- Categories Section -->
 <section class="categories-section py-4">
@@ -122,33 +131,34 @@
         </div>
         
         <div class="row g-4">
-            {% for poem in poems %}
+            {% for poem in poems|slice:":6" %}
             <div class="col-md-4">
                 <div class="card h-100 border-0 shadow-sm hover-lift">
-                    <div class="card-body">
+                    <div class="card-body p-3">
                         {% if poem.category %}
-                        <span class="badge mb-2" style="background: #2A7F7A; padding: 4px 12px;">
+                        <span class="badge mb-1" style="background: #2A7F7A; padding: 3px 10px; font-size: 0.7rem;">
                             {{ poem.category.name }}
                         </span>
                         {% endif %}
-                        <h5 class="card-title" style="font-family: 'Noto Serif Bengali', serif;">
+                        <h5 class="card-title" style="font-family: 'Noto Serif Bengali', serif; font-size: 1.1rem; margin-bottom: 4px;">
                             <a href="{% url 'poem_detail' poem.slug %}" class="text-decoration-none text-dark">
                                 {{ poem.title }}
                             </a>
                         </h5>
-                        <p class="text-muted small">
+                        <p class="text-muted small" style="margin-bottom: 4px; font-size: 0.75rem;">
                             <i class="fas fa-user me-1"></i> {{ poem.author.username }}
                             <span class="mx-1">|</span>
                             <i class="fas fa-calendar me-1"></i> {{ poem.published_at|bengali_date }}
-                            <span class="mx-1">|</span>
-                            <i class="fas fa-eye me-1"></i> {{ poem.views|bengali_num|default:"০" }}
                         </p>
-                        <p class="card-text" style="font-size: 0.9rem; line-height: 1.6;">
-                            {{ poem.content|truncatewords:20|linebreaks }}
-                        </p>
-                        <a href="{% url 'poem_detail' poem.slug %}" class="btn btn-sm btn-outline-teal mt-2">
-                            পড়ুন <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
+                        <div class="poem-preview" style="font-size: 0.9rem; line-height: 1.6; max-height: 200px; overflow-y: auto; padding-right: 4px; margin-bottom: 6px; border-top: 1px solid #f0f0f0; padding-top: 6px;">
+                            {{ poem.content|linebreaks }}
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-1">
+                            <small class="text-muted" style="font-size: 0.7rem;">
+                                <i class="fas fa-heart me-1" style="color: #C45A3C;"></i> {{ poem.likes.count|bengali_num|default:"০" }}
+                                <i class="fas fa-eye ms-2 me-1"></i> {{ poem.views|bengali_num|default:"০" }}
+                            </small>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -197,28 +207,39 @@
     </div>
 </section>
 
-<!-- Random Poem -->
-{% if random_poem %}
-<section class="random-poem-section py-5" style="background: #1A1A1A;">
+<!-- Poem of the Day (Most Popular in Last 24 Hours) -->
+{% if poem_of_the_day %}
+<section class="poem-of-the-day py-5" style="background: #1A1A1A;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h5 class="text-uppercase mb-3" style="color: #C45A3C; letter-spacing: 3px;">
-                    <i class="fas fa-quote-left me-2"></i> দিনের কবিতা
-                </h5>
-                <blockquote class="blockquote">
-                    <p class="fs-4" style="font-family: 'Noto Serif Bengali', serif; color: #FDF8F0; font-style: italic;">
-                        "{{ random_poem.content|truncatewords:20 }}"
-                    </p>
-                    <footer class="blockquote-footer mt-3" style="color: rgba(255, 255, 255, 0.6);">
-                        — <a href="{% url 'poem_detail' random_poem.slug %}" style="color: #2A7F7A; text-decoration: none;">
-                            {{ random_poem.title }}
+            <div class="col-lg-8 mx-auto">
+                <div class="text-center mb-4">
+                    <span class="badge" style="background: #C45A3C; padding: 6px 18px; font-size: 0.75rem; letter-spacing: 2px;">
+                        <i class="fas fa-sun me-2"></i> আজকের কবিতা
+                    </span>
+                </div>
+                <div class="card bg-transparent border-0">
+                    <div class="card-body text-center p-0">
+                        <h2 style="font-family: 'Noto Serif Bengali', serif; color: #FDF8F0; font-size: 2rem; margin-bottom: 8px;">
+                            <a href="{% url 'poem_detail' poem_of_the_day.slug %}" class="text-decoration-none" style="color: #FDF8F0; transition: color 0.3s;">
+                                {{ poem_of_the_day.title }}
+                            </a>
+                        </h2>
+                        <p style="color: rgba(255, 255, 255, 0.5); font-size: 0.8rem; margin-bottom: 20px;">
+                            <i class="fas fa-user me-1" style="color: #C45A3C;"></i> {{ poem_of_the_day.author.username }}
+                            <span class="mx-2">|</span>
+                            <i class="fas fa-eye me-1" style="color: #2A7F7A;"></i> {{ poem_of_the_day.views|bengali_num|default:"০" }} বার দেখা
+                        </p>
+                        <div style="font-family: 'Noto Serif Bengali', serif; color: #FDF8F0; font-size: 1.1rem; line-height: 2.2; white-space: pre-wrap; max-width: 700px; margin: 0 auto;">
+                            {% with content=poem_of_the_day.content %}
+                                {{ content|truncatewords:40|linebreaksbr }}
+                            {% endwith %}
+                        </div>
+                        <a href="{% url 'poem_detail' poem_of_the_day.slug %}" class="btn btn-sm mt-4" style="background: #C45A3C; color: white; border-radius: 20px; padding: 6px 28px; font-size: 0.8rem; border: 1px solid #C45A3C; transition: all 0.3s;">
+                            পুরো কবিতা পড়ুন <i class="fas fa-arrow-right ms-2"></i>
                         </a>
-                        <span style="color: rgba(255, 255, 255, 0.4);">
-                            ({{ random_poem.author.username }})
-                        </span>
-                    </footer>
-                </blockquote>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

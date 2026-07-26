@@ -95,16 +95,6 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
 }
 
-/* Navbar Hover Effect */
-.hover-bg {
-    transition: all 0.3s ease;
-}
-
-.hover-bg:hover {
-    background-color: rgba(255, 255, 255, 0.08) !important;
-    transform: translateY(-1px);
-}
-
 /* Dropdown */
 .dropdown-menu {
     background-color: var(--charcoal) !important;
@@ -171,7 +161,7 @@ h1, h2, h3, h4, h5, h6 {
 .btn-outline-teal:hover {
     background-color: var(--teal);
     color: white;
-    transform: translateY(-2px);
+    transform: translateY(-2px) translateX(3px);
     box-shadow: 0 4px 15px rgba(42, 127, 122, 0.3);
 }
 
@@ -216,7 +206,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .card-title a:hover {
-    color: var(--teal);
+    color: #C45A3C !important;
 }
 
 /* Hover Lift Effect */
@@ -226,7 +216,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .hover-lift:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12) !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1) !important;
 }
 
 /* ============================================
@@ -308,7 +298,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .pagination .page-item.active .page-link {
-    background-color: var(--teal);
+    background-color: #C45A3C;
+    border-color: #C45A3C;
     color: white;
 }
 
@@ -375,6 +366,27 @@ h1, h2, h3, h4, h5, h6 {
     background: #F5F0E8;
     border-top: 1px solid rgba(0, 0, 0, 0.05);
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* ============================================
+   Scrollbar Styling
+   ============================================ */
+.poem-preview::-webkit-scrollbar {
+    width: 4px;
+}
+
+.poem-preview::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+}
+
+.poem-preview::-webkit-scrollbar-thumb {
+    background: #C45A3C;
+    border-radius: 10px;
+}
+
+.poem-preview::-webkit-scrollbar-thumb:hover {
+    background: #a84d33;
 }
 
 /* ============================================

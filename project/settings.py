@@ -123,3 +123,8 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Custom User Model
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+# Login/Logout URLs
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'  # ← This fixes the logout redirect
