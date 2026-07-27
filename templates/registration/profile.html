@@ -14,16 +14,16 @@
                 
                 <!-- User Information -->
                 <div class="mb-3">
+                    <label class="fw-bold text-secondary">নাম</label>
+                    <p class="border-bottom pb-2">{{ user.get_full_name|default:"প্রদান করা হয়নি" }}</p>
+                </div>
+                <div class="mb-3">
                     <label class="fw-bold text-secondary">ইউজারনেম</label>
                     <p class="border-bottom pb-2">{{ user.username }}</p>
                 </div>
                 <div class="mb-3">
                     <label class="fw-bold text-secondary">ইমেইল</label>
                     <p class="border-bottom pb-2">{{ user.email|default:"প্রদান করা হয়নি" }}</p>
-                </div>
-                <div class="mb-3">
-                    <label class="fw-bold text-secondary">নাম</label>
-                    <p class="border-bottom pb-2">{{ user.get_full_name|default:"প্রদান করা হয়নি" }}</p>
                 </div>
                 <div class="mb-3">
                     <label class="fw-bold text-secondary">সদস্য হন</label>
