@@ -9,6 +9,7 @@ from django.utils import timezone
 from datetime import timedelta
 from .models import Poem, Category, Comment, Like
 from .forms import PoemForm, CommentForm
+from django.views import View
 
 
 class HomeView(ListView):
@@ -256,6 +257,27 @@ class SearchView(ListView):
         return context
 
 
+class ToggleLikeView(LoginRequiredMixin, View):
+    """Toggle like on a poem (AJAX)"""
+    
+    def post(self, request, slug):
+        poem = get_object_or_404(Poem, slug=slug)
+        like, created = Like.objects.get_or_create(
+            poem=poem,
+            user=request.user
+        )
+        if not created:
+            like.delete()
+            liked = False
+        else:
+            liked = True
+        
+        return JsonResponse({
+            'liked': liked,
+            'likes_count': poem.likes.count()
+        })
+
+    
 class AboutView(TemplateView):
     """About page with statistics"""
     template_name = 'poems/about.html'

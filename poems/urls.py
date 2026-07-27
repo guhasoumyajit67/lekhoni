@@ -12,6 +12,9 @@ urlpatterns = [
     path('update/<slug:slug>/', views.UpdatePoemView.as_view(), name='update_poem'),
     path('delete/<slug:slug>/', views.DeletePoemView.as_view(), name='delete_poem'),
     
+    # Like
+    path('like/<slug:slug>/', views.ToggleLikeView.as_view(), name='toggle_like'),  # ← ADD THIS
+    
     # My Poems
     path('my-poems/', views.MyPoemsView.as_view(), name='my_poems'),
     
