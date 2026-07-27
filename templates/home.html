@@ -230,10 +230,8 @@
                             <span class="mx-2">|</span>
                             <i class="fas fa-eye me-1" style="color: #2A7F7A;"></i> {{ poem_of_the_day.views|bengali_num|default:"০" }}
                         </p>
-                        <div style="font-family: 'Noto Serif Bengali', serif; color: #FDF8F0; font-size: 1.1rem; line-height: 2.2; white-space: pre-wrap; max-width: 700px; margin: 0 auto;">
-                            {% with content=poem_of_the_day.content %}
-                                {{ content|truncatewords:40|linebreaksbr }}
-                            {% endwith %}
+                        <div style="font-family: 'Noto Serif Bengali', serif; color: #FDF8F0; font-size: 1.1rem; line-height: 2.2; max-width: 700px; margin: 0 auto;">
+                            {{ poem_of_the_day.content|linebreaksbr }}
                         </div>
                         <a href="{% url 'poem_detail' poem_of_the_day.slug %}" class="btn btn-sm mt-4" style="background: #C45A3C; color: white; border-radius: 20px; padding: 6px 28px; font-size: 0.8rem; border: 1px solid #C45A3C; transition: all 0.3s;">
                             পুরো কবিতা পড়ুন <i class="fas fa-arrow-right ms-2"></i>
