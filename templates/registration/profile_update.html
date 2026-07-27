@@ -15,20 +15,45 @@
                 <form method="post">
                     {% csrf_token %}
                     
-                    {% for field in form %}
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">{{ field.label }}</label>
-                            {{ field }}
-                            {% if field.help_text %}
-                                <div class="form-text small text-muted">{{ field.help_text }}</div>
-                            {% endif %}
-                            {% if field.errors %}
-                                <div class="text-danger small">
-                                    {{ field.errors|join:", " }}
-                                </div>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">ইউজারনেম</label>
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            <div class="text-danger small">
+                                {{ form.username.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">ইমেইল</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <div class="text-danger small">
+                                {{ form.email.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">নাম</label>
+                        {{ form.first_name }}
+                        {% if form.first_name.errors %}
+                            <div class="text-danger small">
+                                {{ form.first_name.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">পদবি</label>
+                        {{ form.last_name }}
+                        {% if form.last_name.errors %}
+                            <div class="text-danger small">
+                                {{ form.last_name.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
                     
                     <div class="d-grid gap-2 mt-4">
                         <button type="submit" class="btn btn-primary">
