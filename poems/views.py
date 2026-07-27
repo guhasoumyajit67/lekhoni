@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -253,7 +253,7 @@ class SearchView(ListView):
         return context
 
 
-class AboutView(ListView):
+class AboutView(TemplateView):
     """About page with statistics"""
     template_name = 'poems/about.html'
 
