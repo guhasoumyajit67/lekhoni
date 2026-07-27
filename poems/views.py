@@ -84,6 +84,7 @@ class PoemListView(ListView):
         return Poem.objects.filter(is_published=True).order_by('-published_at')
 
 
+
 class PoemDetailView(DetailView):
     """Detailed view of a single poem"""
     model = Poem
@@ -115,12 +116,14 @@ class PoemDetailView(DetailView):
             comment = form.save(commit=False)
             comment.poem = self.object
             comment.author = request.user
+            comment.is_approved = True  # ← ADD THIS LINE
             comment.save()
             messages.success(request, 'আপনার মন্তব্য সফলভাবে যোগ হয়েছে!')
             return redirect('poem_detail', slug=self.object.slug)
         context = self.get_context_data(**kwargs)
         context['form'] = form
         return render(request, self.template_name, context)
+
 
 
 class CreatePoemView(LoginRequiredMixin, CreateView):
