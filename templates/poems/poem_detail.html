@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load bengali_numbers %}
+{% load static %}
 
 {% block title %}{{ poem.title }} - লেখনী{% endblock %}
 
@@ -16,6 +17,7 @@
 
     <div class="row justify-content-center">
         <div class="col-lg-8 col-xl-7">
+            <!-- Poem Card -->
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4 p-md-5">
                     <h1 class="text-center display-6" style="font-family: 'Noto Serif Bengali', serif;">
@@ -29,23 +31,116 @@
                         <i class="fas fa-eye me-1"></i> {{ poem.views|bengali_num|default:"০" }}
                     </p>
                     <hr>
-                    <div class="poem-content text-center" style="font-family: 'Noto Serif Bengali', serif; font-size: 1.2rem; line-height: 2.4; white-space: pre-line; padding: 1rem 0;">
-                        {{ poem.content }}
+                    <div class="poem-content text-center" style="font-family: 'Noto Serif Bengali', serif; font-size: 1.2rem; line-height: 2.4; padding: 1rem 0;">
+                        {{ poem.content|linebreaksbr }}
+                    </div>
+
+                    <!-- Like Button -->
+                    <div class="text-center mt-3">
+                        <button class="btn btn-outline-danger like-btn" data-poem-slug="{{ poem.slug }}" data-csrf="{{ csrf_token }}">
+                            <i class="fas fa-heart {% if user_liked %}text-danger{% endif %}"></i>
+                            <span class="like-count">{{ likes_count|bengali_num|default:"০" }}</span>
+                        </button>
                     </div>
 
                     {% if user == poem.author %}
                     <div class="text-center mt-4">
-                        <a href="{% url 'update_poem' poem.slug %}" class="btn btn-primary">
-                            <i class="fas fa-edit me-2"></i>
+                        <a href="{% url 'update_poem' poem.slug %}" class="btn btn-outline-teal">
+                            <i class="fas fa-edit me-2"></i> সম্পাদনা
                         </a>
-                        <a href="{% url 'delete_poem' poem.slug %}" class="btn btn-danger ms-2">
-                            <i class="fas fa-trash me-2"></i>
+                        <a href="{% url 'delete_poem' poem.slug %}" class="btn btn-outline-danger ms-2">
+                            <i class="fas fa-trash me-2"></i> মুছে ফেলুন
                         </a>
                     </div>
                     {% endif %}
                 </div>
+
+                <div class="card-body p-4">
+                    <h5 style="font-family: 'Noto Serif Bengali', serif; border-bottom: 3px solid #2A7F7A; padding-bottom: 10px;">
+                        <i class="fas fa-comments me-2" style="color: #2A7F7A;"></i> মন্তব্য ({{ comments|length|bengali_num }})
+                    </h5>
+
+                    <!-- Existing Comments -->
+                    {% if comments %}
+                        {% for comment in comments %}
+                        <div class="mb-3 p-3" style="background: #f8f9fa; border-radius: 8px; border-left: 4px solid #2A7F7A;">
+                            <div class="d-flex justify-content-between">
+                                <strong>{{ comment.author.get_full_name|default:comment.author.username }}</strong>
+                                <small class="text-muted">{{ comment.created_at|bengali_date }}</small>
+                            </div>
+                            <p class="mb-0 mt-1">{{ comment.content|linebreaks }}</p>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">কোনো মন্তব্য নেই। প্রথম মন্তব্য করুন!</p>
+                    {% endif %}
+
+                    <!-- Comment Form -->
+                    {% if user.is_authenticated %}
+                    <div class="mt-4">
+                        <h6 style="color: #1A1A1A;">
+                            <i class="fas fa-pen me-2" style="color: #C45A3C;"></i> আপনার মন্তব্য লিখুন
+                        </h6>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-2">
+                                {{ form.content }}
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fas fa-paper-plane me-2"></i> মন্তব্য পাঠান
+                            </button>
+                        </form>
+                    </div>
+                    {% else %}
+                    <div class="mt-4 p-3 text-center" style="background: #f8f9fa; border-radius: 8px;">
+                        <p class="mb-0">
+                            <a href="{% url 'login' %}" style="color: #2A7F7A;">লগইন</a> করুন মন্তব্য করতে।
+                        </p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="card border-0 shadow-sm mt-4">
+
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Like functionality
+    document.querySelectorAll('.like-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const slug = this.dataset.poemSlug;
+            const heartIcon = this.querySelector('i');
+            const likeCount = this.querySelector('.like-count');
+            const csrfToken = this.dataset.csrf;
+            
+            fetch('/like/' + slug + '/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.liked) {
+                    heartIcon.classList.add('text-danger');
+                } else {
+                    heartIcon.classList.remove('text-danger');
+                }
+                likeCount.textContent = data.likes_count;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    });
+</script>
 {% endblock %}
