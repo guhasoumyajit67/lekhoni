@@ -101,12 +101,15 @@ function showToast(message, type) {
 document.addEventListener('DOMContentLoaded', function() {
 
     // --------------------------------------------
-    // Toggle Comments Section
+    // Toggle Comments Section (YouTube Style)
     // --------------------------------------------
     const toggleBtn = document.getElementById('toggleCommentsBtn');
     const commentsSection = document.getElementById('commentsSection');
     
     if (toggleBtn && commentsSection) {
+        // Initially hide the comments section
+        commentsSection.style.display = 'none';
+        
         toggleBtn.addEventListener('click', function() {
             if (commentsSection.style.display === 'none') {
                 commentsSection.style.display = 'block';
@@ -200,6 +203,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
             const submitBtn = this.querySelector('button[type="submit"]');
             const commentInput = this.querySelector('textarea');
+            
+            // Validate comment
+            if (!commentInput.value.trim()) {
+                showToast('অনুগ্রহ করে মন্তব্য লিখুন।', 'error');
+                return;
+            }
             
             // Show loading state
             submitBtn.disabled = true;
