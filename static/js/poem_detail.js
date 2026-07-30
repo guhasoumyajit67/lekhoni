@@ -3,6 +3,32 @@
 // ============================================
 
 // ============================================
+// BENGALI NUMERAL CONVERTER
+// ============================================
+function toBengaliNumber(value) {
+    const bengaliDigits = {
+        '0': '০', '1': '১', '2': '২', '3': '৩', '4': '৪',
+        '5': '৫', '6': '৬', '7': '৭', '8': '৮', '9': '৯'
+    };
+    
+    // Convert to string and handle potential null/undefined
+    let strValue = String(value || '0');
+    
+    // Remove any non-digit characters (like commas, spaces, etc.)
+    strValue = strValue.replace(/[^\d]/g, '');
+    
+    // If empty after cleaning, return '০'
+    if (strValue === '') {
+        return '০';
+    }
+    
+    // Replace each digit with Bengali numeral
+    return strValue.replace(/\d/g, function(digit) {
+        return bengaliDigits[digit] || digit;
+    });
+}
+
+// ============================================
 // SHARE BUTTON - Copy Link to Clipboard
 // ============================================
 function copyShareLink() {
@@ -34,7 +60,6 @@ function fallbackCopy(text) {
 // TOAST NOTIFICATION
 // ============================================
 function showToast(message, type) {
-    // Check if toast container exists
     let container = document.getElementById('toast-container');
     if (!container) {
         container = document.createElement('div');
@@ -70,7 +95,6 @@ function showToast(message, type) {
 
     toast.textContent = message;
 
-    // Add slide-in animation
     const style = document.createElement('style');
     style.textContent = `
         @keyframes slideIn {
@@ -86,7 +110,6 @@ function showToast(message, type) {
 
     container.appendChild(toast);
 
-    // Auto-remove after 3 seconds
     setTimeout(function() {
         toast.style.animation = 'slideOut 0.3s ease';
         setTimeout(function() {
@@ -96,34 +119,76 @@ function showToast(message, type) {
 }
 
 // ============================================
+// UPDATE BENGALI NUMBERS ON PAGE LOAD
+// ============================================
+function updateAllBengaliNumbers() {
+    // Update like counts
+    document.querySelectorAll('.like-count').forEach(function(element) {
+        const currentText = element.textContent.trim();
+        // Only convert if it's a number
+        if (/^\d+$/.test(currentText)) {
+            element.textContent = toBengaliNumber(currentText);
+            // Apply consistent style
+            element.style.fontFamily = "'Noto Serif Bengali', 'Hind Siliguri', sans-serif";
+            element.style.fontFeatureSettings = "'tnum'";
+            element.style.fontWeight = "600";
+        }
+    });
+    
+    // Update view counts
+    document.querySelectorAll('.view-count, .views-count').forEach(function(element) {
+        const currentText = element.textContent.trim();
+        if (/^\d+$/.test(currentText)) {
+            element.textContent = toBengaliNumber(currentText);
+            // Apply consistent style
+            element.style.fontFamily = "'Noto Serif Bengali', 'Hind Siliguri', sans-serif";
+            element.style.fontFeatureSettings = "'tnum'";
+            element.style.fontWeight = "600";
+        }
+    });
+    
+    // Update comment counts
+    document.querySelectorAll('.comment-count, .comments-count, #commentCountDisplay, #commentCount').forEach(function(element) {
+        const currentText = element.textContent.trim();
+        if (/^\d+$/.test(currentText)) {
+            element.textContent = toBengaliNumber(currentText);
+            // Apply consistent style
+            element.style.fontFamily = "'Noto Serif Bengali', 'Hind Siliguri', sans-serif";
+            element.style.fontFeatureSettings = "'tnum'";
+            element.style.fontWeight = "600";
+        }
+    });
+}
+
+// ============================================
+// FIX: Ensure like count stays in Bengali
+// ============================================
+function updateLikeCount(element, count) {
+    // Directly set the text content to Bengali numerals
+    element.textContent = toBengaliNumber(count);
+    // Apply consistent style
+    element.style.fontFamily = "'Noto Serif Bengali', 'Hind Siliguri', sans-serif";
+    element.style.fontFeatureSettings = "'tnum'";
+    element.style.fontWeight = "600";
+    
+    // Also update any other elements that might display the same count
+    document.querySelectorAll('.like-count, #likeCount, .like-counter').forEach(function(el) {
+        if (el !== element) {
+            el.textContent = toBengaliNumber(count);
+            el.style.fontFamily = "'Noto Serif Bengali', 'Hind Siliguri', sans-serif";
+            el.style.fontFeatureSettings = "'tnum'";
+            el.style.fontWeight = "600";
+        }
+    });
+}
+
+// ============================================
 // MAIN INITIALIZATION
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
 
-    // --------------------------------------------
-    // Toggle Comments Section (YouTube Style)
-    // --------------------------------------------
-    const toggleBtn = document.getElementById('toggleCommentsBtn');
-    const commentsSection = document.getElementById('commentsSection');
-    
-    if (toggleBtn && commentsSection) {
-        // Initially hide the comments section
-        commentsSection.style.display = 'none';
-        
-        toggleBtn.addEventListener('click', function() {
-            if (commentsSection.style.display === 'none') {
-                commentsSection.style.display = 'block';
-                toggleBtn.style.background = '#2A7F7A';
-                toggleBtn.style.color = 'white';
-                toggleBtn.style.borderColor = '#2A7F7A';
-            } else {
-                commentsSection.style.display = 'none';
-                toggleBtn.style.background = 'transparent';
-                toggleBtn.style.color = '';
-                toggleBtn.style.borderColor = '';
-            }
-        });
-    }
+    // Update all Bengali numbers on page load
+    updateAllBengaliNumbers();
 
     // --------------------------------------------
     // Share Button
@@ -134,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // --------------------------------------------
-    // Like Button (AJAX)
+    // Like Button (AJAX) - FIXED VERSION
     // --------------------------------------------
     const likeButtons = document.querySelectorAll('.like-btn');
     likeButtons.forEach(function(btn) {
@@ -152,7 +217,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Add loading state
+            // Get current count to preserve it if needed
+            const currentCount = likeCount.textContent.trim();
+            
+            // Disable button to prevent double-click
             this.disabled = true;
             this.style.opacity = '0.7';
 
@@ -171,20 +239,48 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(function(data) {
+                // Update heart icon
                 if (data.liked) {
                     heartIcon.classList.add('text-danger');
                 } else {
                     heartIcon.classList.remove('text-danger');
                 }
-                likeCount.textContent = data.likes_count;
+                
+                // CRITICAL FIX: Always use Bengali numerals
+                let likesValue = data.likes_count;
+                if (typeof likesValue === 'string') {
+                    likesValue = parseInt(likesValue.replace(/[^\d]/g, '')) || 0;
+                }
+                
+                // Update the like count with Bengali numeral and maintain style
+                likeCount.textContent = toBengaliNumber(likesValue);
+                // Ensure consistent style
+                likeCount.style.fontFamily = "'Noto Serif Bengali', 'Hind Siliguri', sans-serif";
+                likeCount.style.fontFeatureSettings = "'tnum'";
+                likeCount.style.fontWeight = "600";
+                
+                // Also update any other like count displays on the page
+                document.querySelectorAll('.like-count, #likeCount, .like-counter, [data-like-count]').forEach(function(el) {
+                    if (el !== likeCount) {
+                        el.textContent = toBengaliNumber(likesValue);
+                        el.style.fontFamily = "'Noto Serif Bengali', 'Hind Siliguri', sans-serif";
+                        el.style.fontFeatureSettings = "'tnum'";
+                        el.style.fontWeight = "600";
+                    }
+                });
+                
                 showToast(data.liked ? 'পছন্দ করেছেন!' : 'পছন্দ সরিয়েছেন!', 'success');
             })
             .catch(function(error) {
                 console.error('Like error:', error);
+                // Restore the previous count if there's an error
+                if (likeCount && currentCount) {
+                    likeCount.textContent = currentCount;
+                }
                 showToast('লাইক করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।', 'error');
             })
             .finally(function() {
-                // Remove loading state
+                // Re-enable button
                 btn.disabled = false;
                 btn.style.opacity = '1';
             });
@@ -192,7 +288,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // --------------------------------------------
-    // Comment Form - AJAX Submission
+    // Comment Form - AJAX Submission (No Reload)
     // --------------------------------------------
     const commentForm = document.getElementById('commentForm');
     if (commentForm) {
@@ -203,9 +299,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
             const submitBtn = this.querySelector('button[type="submit"]');
             const commentInput = this.querySelector('textarea');
+            const commentsList = document.getElementById('commentsList');
+            const commentCount = document.getElementById('commentCountDisplay');
+            const commentCountBtn = document.getElementById('commentCount');
             
             // Validate comment
-            if (!commentInput.value.trim()) {
+            const commentText = commentInput.value.trim();
+            if (!commentText) {
                 showToast('অনুগ্রহ করে মন্তব্য লিখুন।', 'error');
                 return;
             }
@@ -222,23 +322,98 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: formData
             })
             .then(function(response) {
-                if (response.redirected) {
-                    // If redirected, reload the page to show new comment
-                    window.location.href = response.url;
-                    return;
-                }
                 return response.text();
             })
-            .then(function(data) {
-                // Reload page to show new comment
-                window.location.reload();
+            .then(function(html) {
+                // Parse the response HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Update comments list
+                const newCommentsList = doc.getElementById('commentsList');
+                if (newCommentsList && commentsList) {
+                    commentsList.innerHTML = newCommentsList.innerHTML;
+                }
+                
+                // Update comment count
+                const newCommentCount = doc.getElementById('commentCountDisplay');
+                if (newCommentCount && commentCount) {
+                    // Extract and convert the number to Bengali
+                    const countText = newCommentCount.textContent.trim();
+                    const countNumber = parseInt(countText.replace(/[^\d]/g, '')) || 0;
+                    commentCount.textContent = toBengaliNumber(countNumber);
+                    commentCount.style.fontFamily = "'Noto Serif Bengali', 'Hind Siliguri', sans-serif";
+                    commentCount.style.fontFeatureSettings = "'tnum'";
+                    commentCount.style.fontWeight = "600";
+                    
+                    if (commentCountBtn) {
+                        commentCountBtn.textContent = toBengaliNumber(countNumber);
+                        commentCountBtn.style.fontFamily = "'Noto Serif Bengali', 'Hind Siliguri', sans-serif";
+                        commentCountBtn.style.fontFeatureSettings = "'tnum'";
+                        commentCountBtn.style.fontWeight = "600";
+                    }
+                }
+                
+                // Clear the textarea
+                commentInput.value = '';
+                showToast('মন্তব্য সফলভাবে যোগ হয়েছে!', 'success');
             })
             .catch(function(error) {
                 console.error('Comment error:', error);
                 showToast('মন্তব্য পাঠাতে সমস্যা হয়েছে।', 'error');
+            })
+            .finally(function() {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<i class="fas fa-paper-plane me-1"></i> মন্তব্য পাঠান';
             });
         });
     }
+});
+
+// ============================================
+// MutationObserver to watch for dynamic content
+// ============================================
+const observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+        if (mutation.type === 'childList') {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1) {
+                    // Check for any elements that might contain numbers
+                    const numberElements = node.querySelectorAll('.like-count, .view-count, .views-count, .comment-count, .comments-count, #commentCountDisplay, #commentCount');
+                    numberElements.forEach(function(el) {
+                        const text = el.textContent.trim();
+                        if (/^\d+$/.test(text)) {
+                            el.textContent = toBengaliNumber(text);
+                            el.style.fontFamily = "'Noto Serif Bengali', 'Hind Siliguri', sans-serif";
+                            el.style.fontFeatureSettings = "'tnum'";
+                            el.style.fontWeight = "600";
+                        }
+                    });
+                    
+                    // Also check the node itself
+                    if (node.classList && (
+                        node.classList.contains('like-count') || 
+                        node.classList.contains('view-count') || 
+                        node.classList.contains('views-count') || 
+                        node.classList.contains('comment-count') || 
+                        node.classList.contains('comments-count')
+                    )) {
+                        const text = node.textContent.trim();
+                        if (/^\d+$/.test(text)) {
+                            node.textContent = toBengaliNumber(text);
+                            node.style.fontFamily = "'Noto Serif Bengali', 'Hind Siliguri', sans-serif";
+                            node.style.fontFeatureSettings = "'tnum'";
+                            node.style.fontWeight = "600";
+                        }
+                    }
+                }
+            });
+        }
+    });
+});
+
+// Start observing
+observer.observe(document.body, {
+    childList: true,
+    subtree: true
 });

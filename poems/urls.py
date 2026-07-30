@@ -13,7 +13,11 @@ urlpatterns = [
     path('delete/<slug:slug>/', views.DeletePoemView.as_view(), name='delete_poem'),
     
     # Like
-    path('like/<slug:slug>/', views.ToggleLikeView.as_view(), name='toggle_like'),  # ← ADD THIS
+    path('like/<slug:slug>/', views.ToggleLikeView.as_view(), name='toggle_like'),
+    
+    # Comments
+    path('comment/edit/<int:pk>/', views.CommentEditView.as_view(), name='comment_edit'),
+    path('comment/delete/<int:pk>/', views.CommentDeleteView.as_view(), name='comment_delete'),
     
     # My Poems
     path('my-poems/', views.MyPoemsView.as_view(), name='my_poems'),

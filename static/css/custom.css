@@ -47,6 +47,73 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================
+   GLOBAL BENGALI NUMERALS - Applied to ALL pages
+   ============================================ */
+
+/* Target ALL elements that might display numbers */
+.like-count, 
+.view-count, 
+.comment-count,
+.views-count,
+.comments-count,
+#commentCountDisplay,
+#commentCount,
+.like-counter,
+.followers-count,
+.poem-count,
+.total-count,
+.badge,
+.stat-number,
+.counter,
+.count,
+.number,
+.stat,
+.pagination .page-link,
+.page-item .page-link,
+[class*="-count"],
+[class*="Count"],
+[data-count],
+[data-number] {
+    font-family: 'Noto Serif Bengali', 'Hind Siliguri', 'Bangla', 'Arial Unicode MS', sans-serif !important;
+    font-feature-settings: "tnum", "ss01" !important;
+    -webkit-font-feature-settings: "tnum", "ss01" !important;
+    -moz-font-feature-settings: "tnum", "ss01" !important;
+    font-variant-numeric: tabular-nums !important;
+    unicode-bidi: embed !important;
+    font-weight: 600 !important;
+}
+
+/* Specifically target Bengali number display */
+.bengali-number,
+[class*="bengali"],
+[data-bengali] {
+    font-family: 'Noto Serif Bengali', 'Hind Siliguri', 'Bangla', serif !important;
+    font-feature-settings: "tnum" !important;
+    -webkit-font-feature-settings: "tnum" !important;
+    -moz-font-feature-settings: "tnum" !important;
+    font-weight: 600 !important;
+}
+
+/* Ensure all button numbers use Bengali numerals */
+.btn .like-count,
+.btn .view-count,
+.btn .comment-count,
+.btn span.like-count,
+.btn span.view-count,
+.btn span.comment-count,
+button .like-count,
+button .view-count,
+span .like-count,
+span .view-count {
+    font-family: 'Noto Serif Bengali', 'Hind Siliguri', 'Bangla', 'Arial Unicode MS', sans-serif !important;
+    font-feature-settings: "tnum" !important;
+    -webkit-font-feature-settings: "tnum" !important;
+    -moz-font-feature-settings: "tnum" !important;
+    font-variant-numeric: tabular-nums !important;
+    font-weight: 600 !important;
+}
+
+/* ============================================
    Navbar
    ============================================ */
 .navbar {
@@ -295,6 +362,7 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 8px;
     padding: 8px 16px;
     transition: all 0.3s ease;
+    font-family: 'Noto Serif Bengali', 'Hind Siliguri', sans-serif !important;
 }
 
 .pagination .page-item.active .page-link {
@@ -442,4 +510,65 @@ h1, h2, h3, h4, h5, h6 {
     .hero-section {
         padding: 40px 0 30px;
     }
+}
+
+/* ============================================
+   FIX: Force Bengali numerals in all browsers
+   ============================================ */
+/* This ensures Bengali numerals appear correctly in all browsers */
+@supports (font-variant-numeric: tabular-nums) {
+    .like-count, 
+    .view-count, 
+    .comment-count,
+    .views-count,
+    .comments-count,
+    #commentCountDisplay,
+    #commentCount,
+    .pagination .page-link {
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+/* Fallback for browsers that don't support font-variant-numeric */
+@supports not (font-variant-numeric: tabular-nums) {
+    .like-count, 
+    .view-count, 
+    .comment-count,
+    .views-count,
+    .comments-count,
+    #commentCountDisplay,
+    #commentCount,
+    .pagination .page-link {
+        font-family: 'Noto Serif Bengali', 'Bangla', 'Arial Unicode MS', serif !important;
+    }
+}
+
+/* Force unicode bidirectional for Bengali text */
+.bengali-text,
+.poem-text,
+[lang="bn"],
+[lang="bn-IN"] {
+    unicode-bidi: embed;
+    direction: ltr;
+}
+
+/* ============================================
+   ADDITIONAL: Ensure numbers in all contexts
+   ============================================ */
+/* This catches any other number displays */
+span.count,
+div.count,
+p.count,
+.badge-count,
+.stats .number,
+.meta .count,
+.info .number,
+.likes .count,
+.views .count,
+.comments .count {
+    font-family: 'Noto Serif Bengali', 'Hind Siliguri', 'Bangla', 'Arial Unicode MS', sans-serif !important;
+    font-feature-settings: "tnum" !important;
+    -webkit-font-feature-settings: "tnum" !important;
+    -moz-font-feature-settings: "tnum" !important;
+    font-weight: 600 !important;
 }

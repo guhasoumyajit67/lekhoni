@@ -43,3 +43,20 @@ class CommentForm(forms.ModelForm):
                 'placeholder': 'আপনার মন্তব্য লিখুন...'
             }),
         }
+
+
+
+class CommentEditForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
+        labels = {
+            'content': 'মন্তব্য সম্পাদনা',
+        }
+        widgets = {
+            'content': forms.Textarea(attrs={
+                'class': 'form-control', 
+                'rows': 3,
+                'placeholder': 'আপনার মন্তব্য সম্পাদনা করুন...'
+            }),
+        }

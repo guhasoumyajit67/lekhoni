@@ -76,7 +76,7 @@ class Poem(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('poems:poem_detail', args=[self.slug])
+        return reverse('poem_detail', args=[self.slug])
 
     def save(self, *args, **kwargs):
         # Auto-generate unique slug

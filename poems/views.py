@@ -8,7 +8,7 @@ from django.db import models
 from django.utils import timezone
 from datetime import timedelta
 from .models import Poem, Category, Comment, Like
-from .forms import PoemForm, CommentForm
+from .forms import PoemForm, CommentForm, CommentEditForm
 from django.views import View
 
 
@@ -85,7 +85,6 @@ class PoemListView(ListView):
         return Poem.objects.filter(is_published=True).order_by('-published_at')
 
 
-
 class PoemDetailView(DetailView):
     """Detailed view of a single poem"""
     model = Poem
@@ -117,14 +116,31 @@ class PoemDetailView(DetailView):
             comment = form.save(commit=False)
             comment.poem = self.object
             comment.author = request.user
-            comment.is_approved = True  # ← ADD THIS LINE
+            comment.is_approved = True
             comment.save()
+            
+            # Return JSON response for AJAX requests
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True,
+                    'comment_id': comment.id,
+                    'message': 'আপনার মন্তব্য সফলভাবে যোগ হয়েছে!'
+                })
+            
             messages.success(request, 'আপনার মন্তব্য সফলভাবে যোগ হয়েছে!')
             return redirect('poem_detail', slug=self.object.slug)
+        
+        # If form is invalid and AJAX request
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': False,
+                'errors': form.errors,
+                'message': 'মন্তব্য যুক্ত করতে সমস্যা হয়েছে।'
+            }, status=400)
+        
         context = self.get_context_data(**kwargs)
         context['form'] = form
         return render(request, self.template_name, context)
-
 
 
 class CreatePoemView(LoginRequiredMixin, CreateView):
@@ -277,7 +293,42 @@ class ToggleLikeView(LoginRequiredMixin, View):
             'likes_count': poem.likes.count()
         })
 
+
+class CommentEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    """Edit a comment"""
+    model = Comment
+    form_class = CommentEditForm
+    template_name = 'poems/comment_edit.html'
     
+    def get_success_url(self):
+        return self.object.poem.get_absolute_url()
+    
+    def form_valid(self, form):
+        messages.success(self.request, 'আপনার মন্তব্য সফলভাবে আপডেট হয়েছে!')
+        return super().form_valid(form)
+    
+    def test_func(self):
+        comment = self.get_object()
+        return self.request.user == comment.author
+
+
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """Delete a comment"""
+    model = Comment
+    template_name = 'poems/comment_confirm_delete.html'
+    
+    def get_success_url(self):
+        return self.object.poem.get_absolute_url()
+    
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, 'আপনার মন্তব্য সফলভাবে মুছে ফেলা হয়েছে!')
+        return super().delete(request, *args, **kwargs)
+    
+    def test_func(self):
+        comment = self.get_object()
+        return self.request.user == comment.author
+
+
 class AboutView(TemplateView):
     """About page with statistics"""
     template_name = 'poems/about.html'
