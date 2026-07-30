@@ -118,7 +118,6 @@ span .view-count {
    ============================================ */
 .navbar {
     background-color: var(--charcoal) !important;
-    border-bottom: 3px solid var(--teal);
     padding: 12px 0;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
 }
