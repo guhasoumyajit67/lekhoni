@@ -6,19 +6,19 @@
 
 {% block content %}
 <div class="py-3">
-    <h2 class="text-center mb-3" style="font-family: 'Noto Serif Bengali', serif; font-size: 1.8rem;">
+    <h2 class="text-center mb-5" style="font-family: 'Noto Serif Bengali', serif; font-size: 1.8rem;">
         <i class="fas fa-book-open me-2" style="color: #2A7F7A;"></i>
         সব কবিতা
     </h2>
     
-    <!-- 🚨 CONTAINER FOR POEMS -->
+    <!-- CONTAINER FOR POEMS -->
     <div class="row g-3" id="poem-container">
         {% include 'partials/_poem_card.html' %}
     </div>
     
-    <!-- 🚨 LOAD MORE BUTTON -->
+    <!-- 🚨 UPDATED: Removed 'btn-lg' to make it medium-sized -->
     <div class="text-center mt-4" id="load-more-wrapper">
-        <button id="load-more-btn" class="btn btn-outline-teal btn-lg">
+        <button id="load-more-btn" class="btn btn-outline-teal">
             <i class="fas fa-plus-circle me-2"></i> আরও লোড করুন
         </button>
     </div>
