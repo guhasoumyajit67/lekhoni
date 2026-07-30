@@ -40,13 +40,12 @@
         </div>
     </div>
     
-    <!-- 🚨 CONTAINER FOR POEMS -->
+    <!-- CONTAINER FOR POEMS -->
     <div class="row g-4" id="poem-container">
-        <!-- We use the same reusable partial! -->
         {% include 'partials/_my_poem_card.html' %}
     </div>
     
-    <!-- 🚨 LOAD MORE BUTTON -->
+    <!-- LOAD MORE BUTTON -->
     <div class="text-center mt-4" id="load-more-wrapper">
         <button id="load-more-btn" class="btn btn-outline-teal">
             <i class="fas fa-plus-circle me-2"></i> আরও লোড করুন
@@ -55,44 +54,7 @@
 </div>
 
 {% block extra_js %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const loadMoreBtn = document.getElementById('load-more-btn');
-    const loadMoreWrapper = document.getElementById('load-more-wrapper');
-    const poemContainer = document.getElementById('poem-container');
-    
-    // Track which page we are currently on (start at 2)
-    let currentPage = 2;
-
-    loadMoreBtn.addEventListener('click', function() {
-        // Disable button and show loading spinner
-        loadMoreBtn.disabled = true;
-        loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> লোড হচ্ছে...';
-
-        // 🚨 FETCH FROM THE MY-POEMS API ENDPOINT
-        fetch(`/my-poems/load-more/?page=${currentPage}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.html) {
-                poemContainer.insertAdjacentHTML('beforeend', data.html);
-                currentPage++;
-            }
-            
-            if (data.has_next) {
-                loadMoreBtn.disabled = false;
-                loadMoreBtn.innerHTML = '<i class="fas fa-plus-circle me-2"></i> আরও লোড করুন';
-            } else {
-                loadMoreWrapper.innerHTML = '<p class="text-muted">সব কবিতা লোড করা হয়েছে!</p>';
-            }
-        })
-        .catch(error => {
-            console.error('Error loading poems:', error);
-            loadMoreBtn.disabled = false;
-            loadMoreBtn.innerHTML = '<i class="fas fa-plus-circle me-2"></i> আরও লোড করুন';
-            alert('লোড করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
-        });
-    });
-});
-</script>
+<!-- ✅ Load the external JS file matching the template name -->
+<script src="{% static 'js/my_poems.js' %}"></script>
 {% endblock extra_js %}
 {% endblock %}
