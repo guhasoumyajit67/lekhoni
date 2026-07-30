@@ -67,8 +67,12 @@
                         </div>
                         <div class="d-flex justify-content-between align-items-center mt-1">
                             <small class="text-muted" style="font-size: 0.7rem;">
-                                <i class="fas fa-heart me-1" style="color: #C45A3C;"></i> {{ poem.likes.count|bengali_num|default:"০" }}
-                                <i class="fas fa-eye ms-2 me-1"></i> {{ poem.views|bengali_num|default:"০" }}
+                                <i class="fas fa-heart me-1" style="color: #C45A3C;"></i> 
+                                <span class="like-count" style="font-family: 'Noto Serif Bengali', 'Hind Siliguri', sans-serif; font-feature-settings: 'tnum'; font-weight: 600;">{{ poem.likes.count|bengali_num|default:"০" }}</span>
+                                <i class="fas fa-eye ms-2 me-1"></i> 
+                                <span class="view-count" style="font-family: 'Noto Serif Bengali', 'Hind Siliguri', sans-serif; font-feature-settings: 'tnum'; font-weight: 600;">{{ poem.views|bengali_num|default:"০" }}</span>
+                                <i class="fas fa-comment ms-2 me-1" style="color: #2A7F7A;"></i> 
+                                <span class="comment-count" style="font-family: 'Noto Serif Bengali', 'Hind Siliguri', sans-serif; font-feature-settings: 'tnum'; font-weight: 600;">{{ poem.comments.count|bengali_num|default:"০" }}</span>
                             </small>
                         </div>
                     </div>
@@ -103,7 +107,9 @@
                         <div class="card-body py-3">
                             <i class="fas {{ category.icon|default:'fa-folder-open' }} fs-2" style="color: #2A7F7A;"></i>
                             <p class="mb-0 mt-2 fw-semibold text-dark small">{{ category.name }}</p>
-                            <small class="text-muted">{{ category.poem_count|bengali_num|default:"০" }}টি কবিতা</small>
+                            <small class="text-muted">
+                                <span class="poem-count" style="font-family: 'Noto Serif Bengali', 'Hind Siliguri', sans-serif; font-feature-settings: 'tnum'; font-weight: 600;">{{ category.poem_count|bengali_num|default:"০" }}</span>টি কবিতা
+                            </small>
                         </div>
                     </div>
                 </a>
@@ -155,8 +161,12 @@
                         </div>
                         <div class="d-flex justify-content-between align-items-center mt-1">
                             <small class="text-muted" style="font-size: 0.7rem;">
-                                <i class="fas fa-heart me-1" style="color: #C45A3C;"></i> {{ poem.likes.count|bengali_num|default:"০" }}
-                                <i class="fas fa-eye ms-2 me-1"></i> {{ poem.views|bengali_num|default:"০" }}
+                                <i class="fas fa-heart me-1" style="color: #C45A3C;"></i> 
+                                <span class="like-count" style="font-family: 'Noto Serif Bengali', 'Hind Siliguri', sans-serif; font-feature-settings: 'tnum'; font-weight: 600;">{{ poem.likes.count|bengali_num|default:"০" }}</span>
+                                <i class="fas fa-eye ms-2 me-1"></i> 
+                                <span class="view-count" style="font-family: 'Noto Serif Bengali', 'Hind Siliguri', sans-serif; font-feature-settings: 'tnum'; font-weight: 600;">{{ poem.views|bengali_num|default:"০" }}</span>
+                                <i class="fas fa-comment ms-2 me-1" style="color: #2A7F7A;"></i> 
+                                <span class="comment-count" style="font-family: 'Noto Serif Bengali', 'Hind Siliguri', sans-serif; font-feature-settings: 'tnum'; font-weight: 600;">{{ poem.comments.count|bengali_num|default:"০" }}</span>
                             </small>
                         </div>
                     </div>
@@ -190,7 +200,9 @@
                 
                 {% for num in poems.paginator.page_range %}
                 <li class="page-item {% if poems.number == num %}active{% endif %}">
-                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    <a class="page-link" href="?page={{ num }}" style="font-family: 'Noto Serif Bengali', 'Hind Siliguri', sans-serif; font-feature-settings: 'tnum'; font-weight: 600;">
+                        {{ num|bengali_num }}
+                    </a>
                 </li>
                 {% endfor %}
                 
@@ -228,7 +240,15 @@
                         <p style="color: rgba(255, 255, 255, 0.5); font-size: 0.8rem; margin-bottom: 20px;">
                             <i class="fas fa-user me-1" style="color: #C45A3C;"></i> {{ poem_of_the_day.author.get_full_name|default:poem_of_the_day.author.username }}
                             <span class="mx-2">|</span>
-                            <i class="fas fa-eye me-1" style="color: #2A7F7A;"></i> {{ poem_of_the_day.views|bengali_num|default:"০" }}
+                            <i class="fas fa-eye me-1" style="color: #2A7F7A;"></i> 
+                            <span class="view-count" style="font-family: 'Noto Serif Bengali', 'Hind Siliguri', sans-serif; font-feature-settings: 'tnum'; font-weight: 600; color: rgba(255, 255, 255, 0.5);">
+                                {{ poem_of_the_day.views|bengali_num|default:"০" }}
+                            </span>
+                            <span class="mx-2">|</span>
+                            <i class="fas fa-comment me-1" style="color: #2A7F7A;"></i> 
+                            <span class="comment-count" style="font-family: 'Noto Serif Bengali', 'Hind Siliguri', sans-serif; font-feature-settings: 'tnum'; font-weight: 600; color: rgba(255, 255, 255, 0.5);">
+                                {{ poem_of_the_day.comments.count|bengali_num|default:"০" }}
+                            </span>
                         </p>
                         <div style="font-family: 'Noto Serif Bengali', serif; color: #FDF8F0; font-size: 1.1rem; line-height: 2.2; max-width: 700px; margin: 0 auto;">
                             {{ poem_of_the_day.content|linebreaksbr }}
