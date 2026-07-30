@@ -34,17 +34,25 @@
                         {{ poem.content|linebreaks }}
                     </div>
                     
-                    <!-- 🚨 FIXED: Added Bengali font styling to numbers -->
+                    <!-- 🚨 UPDATED: Added Comment Count & Proper Fonts -->
                     <div class="d-flex justify-content-between align-items-center mt-1">
                         <small class="text-muted" style="font-size: 0.7rem;">
+                            <!-- Like -->
                             <i class="fas fa-heart me-1" style="color: #C45A3C;"></i> 
                             <span style="font-family: 'Noto Serif Bengali', 'Hind Siliguri', sans-serif; font-feature-settings: 'tnum'; font-weight: 600;">
                                 {{ poem.likes.count|bengali_num|default:"০" }}
                             </span>
                             
+                            <!-- View -->
                             <i class="fas fa-eye ms-2 me-1"></i> 
                             <span style="font-family: 'Noto Serif Bengali', 'Hind Siliguri', sans-serif; font-feature-settings: 'tnum'; font-weight: 600;">
                                 {{ poem.views|bengali_num|default:"০" }}
+                            </span>
+                            
+                            <!-- 🆕 Comment Count Added -->
+                            <i class="fas fa-comment ms-2 me-1" style="color: #2A7F7A;"></i> 
+                            <span style="font-family: 'Noto Serif Bengali', 'Hind Siliguri', sans-serif; font-feature-settings: 'tnum'; font-weight: 600;">
+                                {{ poem.comments.count|bengali_num|default:"০" }}
                             </span>
                         </small>
                     </div>
@@ -69,7 +77,7 @@
         {% endfor %}
     </div>
     
-    <!-- 🚨 FIXED: Added Bengali font styling to pagination numbers -->
+    <!-- 🚨 Pagination with Font Fix -->
     {% if poems.has_other_pages %}
     <nav class="mt-4">
         <ul class="pagination justify-content-center">
