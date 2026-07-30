@@ -7,6 +7,10 @@ urlpatterns = [
     
     # Poems
     path('poems/', views.PoemListView.as_view(), name='poem_list'),
+    
+    # 🚨 ADD THIS LINE RIGHT HERE:
+    path('poems/load-more/', views.LoadMorePoemsView.as_view(), name='load_more_poems'),
+    
     path('poem/<slug:slug>/', views.PoemDetailView.as_view(), name='poem_detail'),
     path('create/', views.CreatePoemView.as_view(), name='create_poem'),
     path('update/<slug:slug>/', views.UpdatePoemView.as_view(), name='update_poem'),

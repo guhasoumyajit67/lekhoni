@@ -10,6 +10,7 @@ from datetime import timedelta
 from .models import Poem, Category, Comment, Like
 from .forms import PoemForm, CommentForm, CommentEditForm
 from django.views import View
+from django.core.paginator import Paginator
 
 
 class HomeView(ListView):
@@ -83,6 +84,30 @@ class PoemListView(ListView):
 
     def get_queryset(self):
         return Poem.objects.filter(is_published=True).order_by('-published_at')
+
+
+class LoadMorePoemsView(View):
+    """API endpoint to fetch next batch of poems via AJAX"""
+    
+    def get(self, request, *args, **kwargs):
+        page = request.GET.get('page', 2)  # Start from page 2
+        
+        all_poems = Poem.objects.filter(is_published=True).order_by('-published_at')
+        paginator = Paginator(all_poems, 9)
+        
+        try:
+            poems = paginator.page(page)
+        except:
+            return JsonResponse({'html': '', 'has_next': False})
+        
+        # Render the partial template (just the cards)
+        from django.template.loader import render_to_string
+        html = render_to_string('partials/_poem_card.html', {'poems': poems})
+        
+        return JsonResponse({
+            'html': html,
+            'has_next': poems.has_next()
+        })
 
 
 class PoemDetailView(DetailView):
