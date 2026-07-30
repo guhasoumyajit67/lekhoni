@@ -7,8 +7,6 @@ urlpatterns = [
     
     # Poems
     path('poems/', views.PoemListView.as_view(), name='poem_list'),
-    
-    # 🚨 ADD THIS LINE RIGHT HERE:
     path('poems/load-more/', views.LoadMorePoemsView.as_view(), name='load_more_poems'),
     
     path('poem/<slug:slug>/', views.PoemDetailView.as_view(), name='poem_detail'),
@@ -29,6 +27,9 @@ urlpatterns = [
     # Categories
     path('categories/', views.CategoryListView.as_view(), name='category_list'),
     path('category/<slug:slug>/', views.CategoryDetailView.as_view(), name='category_detail'),
+    
+    # 🚨 ADD THIS LINE RIGHT HERE FOR CATEGORY LOAD MORE:
+    path('category/<slug:slug>/load-more/', views.CategoryLoadMorePoemsView.as_view(), name='category_load_more'),
     
     # Search
     path('search/', views.SearchView.as_view(), name='search'),

@@ -273,6 +273,30 @@ class CategoryDetailView(ListView):
         return context
 
 
+class CategoryLoadMorePoemsView(View):
+    """API endpoint to fetch next batch of poems for a specific category via AJAX"""
+    
+    def get(self, request, slug, *args, **kwargs):
+        page = request.GET.get('page', 2)
+        category = get_object_or_404(Category, slug=slug)
+        
+        all_poems = Poem.objects.filter(category=category, is_published=True).order_by('-published_at')
+        paginator = Paginator(all_poems, 9)
+        
+        try:
+            poems = paginator.page(page)
+        except:
+            return JsonResponse({'html': '', 'has_next': False})
+        
+        from django.template.loader import render_to_string
+        html = render_to_string('partials/_poem_card.html', {'poems': poems})
+        
+        return JsonResponse({
+            'html': html,
+            'has_next': poems.has_next()
+        })
+    
+
 class SearchView(ListView):
     """Search poems"""
     template_name = 'poems/search_results.html'
