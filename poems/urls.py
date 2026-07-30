@@ -24,11 +24,12 @@ urlpatterns = [
     # My Poems
     path('my-poems/', views.MyPoemsView.as_view(), name='my_poems'),
     
+    # 🚨 ADD THIS LINE RIGHT HERE FOR MY POEMS LOAD MORE:
+    path('my-poems/load-more/', views.MyPoemsLoadMoreView.as_view(), name='my_poems_load_more'),
+    
     # Categories
     path('categories/', views.CategoryListView.as_view(), name='category_list'),
     path('category/<slug:slug>/', views.CategoryDetailView.as_view(), name='category_detail'),
-    
-    # 🚨 ADD THIS LINE RIGHT HERE FOR CATEGORY LOAD MORE:
     path('category/<slug:slug>/load-more/', views.CategoryLoadMorePoemsView.as_view(), name='category_load_more'),
     
     # Search
