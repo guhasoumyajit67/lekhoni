@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
 
 {% block title %}{% if form.instance.pk %}কবিতা সম্পাদনা{% else %}নতুন কবিতা{% endif %} - লেখনী{% endblock %}
 
@@ -6,8 +8,8 @@
 <div class="py-4">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="card shadow-sm">
-                <div class="card-body p-4">
+            <div class="card shadow-sm hover-lift border-0">
+                <div class="card-body p-4 p-md-5">
                     <h3 class="text-center mb-4" style="font-family: 'Noto Serif Bengali', serif;">
                         {% if form.instance.pk %}
                             <i class="fas fa-edit me-2" style="color: #2A7F7A;"></i>
@@ -18,30 +20,39 @@
                         {% endif %}
                     </h3>
                     
-                    <form method="post">
+                    <form method="post" novalidate>
                         {% csrf_token %}
                         
                         {% for field in form %}
                             <div class="mb-3">
-                                <label class="form-label fw-bold">{{ field.label }}</label>
-                                {{ field }}
+                                <label class="form-label fw-bold text-secondary small text-uppercase tracking-wider">
+                                    {{ field.label }}
+                                </label>
+                                
+                                <!-- 🚨 The magic line that styles every Django field -->
+                                {{ field|add_class:"form-control rounded-3" }}
+                                
                                 {% if field.help_text %}
-                                    <div class="form-text small text-muted">{{ field.help_text }}</div>
+                                    <div class="form-text small text-muted mt-1">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        {{ field.help_text }}
+                                    </div>
                                 {% endif %}
+                                
                                 {% if field.errors %}
-                                    <div class="text-danger small">
+                                    <div class="text-danger small mt-1">
                                         {{ field.errors|join:", " }}
                                     </div>
                                 {% endif %}
                             </div>
                         {% endfor %}
                         
-                        <div class="d-grid gap-2 mt-4">
-                            <button type="submit" class="btn btn-primary">
+                        <div class="d-grid gap-3 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-pill">
                                 <i class="fas fa-save me-2"></i>
                                 {% if form.instance.pk %}আপডেট করুন{% else %}প্রকাশ করুন{% endif %}
                             </button>
-                            <a href="{% url 'my_poems' %}" class="btn btn-outline-secondary">
+                            <a href="{% url 'my_poems' %}" class="btn btn-outline-secondary btn-lg rounded-pill">
                                 <i class="fas fa-arrow-left me-2"></i> বাতিল করুন
                             </a>
                         </div>

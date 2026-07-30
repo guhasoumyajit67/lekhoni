@@ -1,48 +1,51 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}প্রোফাইল - লেখনী{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center mt-5">
     <div class="col-md-6">
-        <div class="card shadow-sm">
-            <div class="card-body p-4">
-                <h3 class="text-center mb-4">
-                    <i class="fas fa-user-circle" style="color: #2A7F7A;"></i>
+        <div class="card shadow-sm hover-lift border-0">
+            <div class="card-body p-4 p-md-5">
+                <!-- 🚨 Added Bengali font to the heading -->
+                <h3 class="text-center mb-4" style="font-family: 'Noto Serif Bengali', serif;">
+                    <i class="fas fa-user-circle me-2" style="color: #2A7F7A;"></i>
                     আমার প্রোফাইল
                 </h3>
                 
                 <!-- User Information -->
                 <div class="mb-3">
-                    <label class="fw-bold text-secondary">নাম</label>
-                    <p class="border-bottom pb-2">{{ user.get_full_name|default:"প্রদান করা হয়নি" }}</p>
+                    <label class="fw-bold text-secondary small text-uppercase tracking-wider">নাম</label>
+                    <p class="border-bottom pb-2 fs-5 fw-medium">{{ user.get_full_name|default:"প্রদান করা হয়নি" }}</p>
                 </div>
                 <div class="mb-3">
-                    <label class="fw-bold text-secondary">ইউজারনেম</label>
-                    <p class="border-bottom pb-2">{{ user.username }}</p>
+                    <label class="fw-bold text-secondary small text-uppercase tracking-wider">ইউজারনেম</label>
+                    <p class="border-bottom pb-2 fs-5 fw-medium">{{ user.username }}</p>
                 </div>
                 <div class="mb-3">
-                    <label class="fw-bold text-secondary">ইমেইল</label>
-                    <p class="border-bottom pb-2">{{ user.email|default:"প্রদান করা হয়নি" }}</p>
+                    <label class="fw-bold text-secondary small text-uppercase tracking-wider">ইমেইল</label>
+                    <p class="border-bottom pb-2 fs-5 fw-medium">{{ user.email|default:"প্রদান করা হয়নি" }}</p>
                 </div>
                 <div class="mb-3">
-                    <label class="fw-bold text-secondary">সদস্য হন</label>
-                    <p class="border-bottom pb-2">{{ user.date_joined|date:"d F, Y" }}</p>
+                    <label class="fw-bold text-secondary small text-uppercase tracking-wider">সদস্য হন</label>
+                    <!-- 🚨 Ensured proper Bengali date format -->
+                    <p class="border-bottom pb-2 fs-5 fw-medium">{{ user.date_joined|date:"d F, Y" }}</p>
                 </div>
                 <div class="mb-3">
-                    <label class="fw-bold text-secondary">শেষ লগইন</label>
-                    <p class="border-bottom pb-2">{{ user.last_login|date:"d F, Y"|default:"প্রদান করা হয়নি" }}</p>
+                    <label class="fw-bold text-secondary small text-uppercase tracking-wider">শেষ লগইন</label>
+                    <p class="border-bottom pb-2 fs-5 fw-medium">{{ user.last_login|date:"d F, Y"|default:"প্রদান করা হয়নি" }}</p>
                 </div>
                 
                 <!-- Actions -->
-                <div class="d-grid gap-2 mt-4">
-                    <a href="{% url 'profile_update' %}" class="btn btn-outline-primary">
+                <div class="d-grid gap-3 mt-4">
+                    <a href="{% url 'profile_update' %}" class="btn btn-outline-teal btn-lg rounded-pill">
                         <i class="fas fa-edit me-2"></i> প্রোফাইল সম্পাদনা
                     </a>
-                    <a href="{% url 'password_change' %}" class="btn btn-outline-secondary">
+                    <a href="{% url 'password_change' %}" class="btn btn-outline-secondary btn-lg rounded-pill">
                         <i class="fas fa-key me-2"></i> পাসওয়ার্ড পরিবর্তন
                     </a>
-                    <a href="{% url 'home' %}" class="btn btn-primary">
+                    <a href="{% url 'home' %}" class="btn btn-primary btn-lg rounded-pill">
                         <i class="fas fa-home me-2"></i> হোম পেজে যান
                     </a>
                 </div>

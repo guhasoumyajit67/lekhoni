@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load bengali_numbers %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block title %}মন্তব্য সম্পাদনা - লেখনী{% endblock %}
 
@@ -8,8 +9,8 @@
 <div class="py-4">
     <div class="row justify-content-center">
         <div class="col-lg-8 col-xl-7">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-4">
+            <div class="card border-0 shadow-sm hover-lift">
+                <div class="card-body p-4 p-md-5">
                     <h3 class="text-center mb-4" style="font-family: 'Noto Serif Bengali', serif;">
                         <i class="fas fa-edit me-2" style="color: #2A7F7A;"></i>
                         মন্তব্য সম্পাদনা
@@ -19,20 +20,21 @@
                         {% csrf_token %}
                         
                         <div class="mb-3">
-                            <label class="form-label fw-bold">{{ form.content.label }}</label>
-                            {{ form.content }}
+                            <label class="form-label fw-bold text-secondary small text-uppercase tracking-wider">{{ form.content.label }}</label>
+                            <!-- Styling the textarea with Bootstrap classes -->
+                            {{ form.content|add_class:"form-control rounded-3"|attr:"rows:5" }}
                             {% if form.content.errors %}
-                                <div class="text-danger small">
+                                <div class="text-danger small mt-1">
                                     {{ form.content.errors|join:", " }}
                                 </div>
                             {% endif %}
                         </div>
                         
-                        <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">
+                        <div class="d-flex flex-column flex-sm-row gap-3 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-pill flex-grow-1">
                                 <i class="fas fa-save me-2"></i> আপডেট করুন
                             </button>
-                            <a href="{{ request.META.HTTP_REFERER|default:'/' }}" class="btn btn-outline-secondary">
+                            <a href="{{ request.META.HTTP_REFERER|default:'/' }}" class="btn btn-outline-secondary btn-lg rounded-pill flex-grow-1">
                                 <i class="fas fa-times me-2"></i> বাতিল করুন
                             </a>
                         </div>

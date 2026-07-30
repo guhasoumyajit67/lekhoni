@@ -8,29 +8,29 @@
 <div class="py-4">
     <div class="row justify-content-center">
         <div class="col-lg-8 col-xl-7">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-4 text-center">
-                    <i class="fas fa-exclamation-triangle" style="font-size: 48px; color: #dc3545;"></i>
+            <div class="card border-0 shadow-sm hover-lift">
+                <div class="card-body p-4 p-md-5 text-center">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 4rem; color: #dc3545;"></i>
                     
-                    <h3 class="mt-3" style="font-family: 'Noto Serif Bengali', serif;">
+                    <h3 class="mt-3 mb-2" style="font-family: 'Noto Serif Bengali', serif;">
                         মন্তব্য মুছে ফেলুন?
                     </h3>
                     
-                    <p class="text-muted">
+                    <p class="text-muted mb-4">
                         আপনি কি নিশ্চিত যে আপনি এই মন্তব্যটি মুছে ফেলতে চান?
                     </p>
                     
-                    <div class="p-3 mb-3" style="background: #f8f9fa; border-radius: 8px; border-left: 3px solid #dc3545; text-align: left;">
-                        <p class="mb-0" style="font-size: 0.9rem;">{{ comment.content|linebreaks }}</p>
+                    <div class="p-3 mb-4 text-start" style="background: #f8f9fa; border-radius: 8px; border-left: 4px solid #dc3545;">
+                        <p class="mb-0" style="font-size: 0.95rem; line-height: 1.6;">{{ comment.content|linebreaks }}</p>
                     </div>
                     
                     <form method="post">
                         {% csrf_token %}
-                        <div class="d-flex justify-content-center gap-2">
-                            <a href="{{ request.META.HTTP_REFERER|default:'/' }}" class="btn btn-outline-secondary">
+                        <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+                            <a href="{{ request.META.HTTP_REFERER|default:'/' }}" class="btn btn-outline-secondary btn-lg rounded-pill px-4">
                                 <i class="fas fa-times me-2"></i> বাতিল করুন
                             </a>
-                            <button type="submit" class="btn btn-danger">
+                            <button type="submit" class="btn btn-danger btn-lg rounded-pill px-4">
                                 <i class="fas fa-trash me-2"></i> মুছে ফেলুন
                             </button>
                         </div>
