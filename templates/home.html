@@ -185,37 +185,6 @@
             </div>
             {% endfor %}
         </div>
-        
-        <!-- Pagination -->
-        {% if poems.has_other_pages %}
-        <nav class="mt-5">
-            <ul class="pagination justify-content-center">
-                {% if poems.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ poems.previous_page_number }}">
-                        <i class="fas fa-chevron-left"></i>
-                    </a>
-                </li>
-                {% endif %}
-                
-                {% for num in poems.paginator.page_range %}
-                <li class="page-item {% if poems.number == num %}active{% endif %}">
-                    <a class="page-link" href="?page={{ num }}" style="font-family: 'Noto Serif Bengali', 'Hind Siliguri', sans-serif; font-feature-settings: 'tnum'; font-weight: 600;">
-                        {{ num|bengali_num }}
-                    </a>
-                </li>
-                {% endfor %}
-                
-                {% if poems.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ poems.next_page_number }}">
-                        <i class="fas fa-chevron-right"></i>
-                    </a>
-                </li>
-                {% endif %}
-            </ul>
-        </nav>
-        {% endif %}
     </div>
 </section>
 
@@ -250,9 +219,11 @@
                                 {{ poem_of_the_day.comments.count|bengali_num|default:"০" }}
                             </span>
                         </p>
+                        
                         <div style="font-family: 'Noto Serif Bengali', serif; color: #FDF8F0; font-size: 1.1rem; line-height: 2.2; max-width: 700px; margin: 0 auto;">
-                            {{ poem_of_the_day.content|linebreaksbr }}
+                            {{ poem_of_the_day.content|truncatechars:300|linebreaksbr }}
                         </div>
+
                         <a href="{% url 'poem_detail' poem_of_the_day.slug %}" class="btn btn-sm mt-4" style="background: #C45A3C; color: white; border-radius: 20px; padding: 6px 28px; font-size: 0.8rem; border: 1px solid #C45A3C; transition: all 0.3s;">
                             পুরো কবিতা পড়ুন <i class="fas fa-arrow-right ms-2"></i>
                         </a>
