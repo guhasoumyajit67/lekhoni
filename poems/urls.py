@@ -23,8 +23,6 @@ urlpatterns = [
     
     # My Poems
     path('my-poems/', views.MyPoemsView.as_view(), name='my_poems'),
-    
-    # 🚨 ADD THIS LINE RIGHT HERE FOR MY POEMS LOAD MORE:
     path('my-poems/load-more/', views.MyPoemsLoadMoreView.as_view(), name='my_poems_load_more'),
     
     # Categories
@@ -34,6 +32,9 @@ urlpatterns = [
     
     # Search
     path('search/', views.SearchView.as_view(), name='search'),
+    
+    # 🚨 ADD THIS MISSING LINE RIGHT HERE:
+    path('search/load-more/', views.SearchLoadMoreView.as_view(), name='search_load_more'),
     
     # About
     path('about/', views.AboutView.as_view(), name='about'),

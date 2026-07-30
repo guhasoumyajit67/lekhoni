@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% load bengali_numbers %}
 
 {% block title %}আমাদের সম্পর্কে - লেখনী{% endblock %}
@@ -7,57 +8,110 @@
 <div class="py-5">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body p-5">
-                        <h2 class="text-center mb-4" style="font-family: 'Noto Serif Bengali', serif;">
-                            <i class="fas fa-feather-alt me-2" style="color: #C45A3C;"></i>
-                            লেখনী সম্পর্কে
-                        </h2>
-                        
-                        <p class="lead text-center mb-4" style="font-size: 1.1rem; color: #555;">
-                            বাংলা কবিতার আখর — যেখানে কলম কথা বলে, আর আবেগ হয়ে ওঠে ছন্দ
-                        </p>
-                        
-                        <hr>
-                        
-                        <h5 style="color: #2A7F7A;">
-                            <i class="fas fa-quote-left me-2"></i> এসো কবিতা লিখি
-                        </h5>
-                        <p>
-                            <strong>লেখনী</strong> একটি বাংলা কবিতা ব্লগ। আমাদের লক্ষ্য হলো বাংলা কবিতার চর্চাকে 
-                            আরও জনপ্রিয় করা এবং নতুন কবি-কবয়িত্রীদের একটি প্ল্যাটফর্ম দেওয়া।
-                        </p>
-                        <p>
-                            আমরা বিশ্বাস করি, প্রতিটি মানুষের ভেতরে একজন কবি বাস করে। শুধু সেই কলমটিকে 
-                            তুলে নেওয়ার অপেক্ষা।
-                        </p>
-                        
-                        <div class="row mt-4 g-3">
-                            <div class="col-6 col-md-4 text-center">
-                                <div class="p-3" style="background: #FDF8F0; border-radius: 12px;">
-                                    <i class="fas fa-book-open" style="font-size: 32px; color: #2A7F7A;"></i>
-                                    <h6 class="mt-2 mb-0" style="color: #888; font-size: 0.8rem;">মোট কবিতা</h6>
-                                    <p class="display-6 fw-bold" style="font-size: 2.2rem; color: #2A7F7A; margin: 0;">{{ total_poems|bengali_num|default:"০" }}</p>
-                                </div>
+            <div class="col-lg-10">
+                
+                <!-- Hero / Branding Section -->
+                <div class="text-center mb-5">
+                    <i class="fas fa-feather-alt" style="font-size: 4rem; color: #C45A3C;"></i>
+                    <h1 class="display-4 fw-bold mt-3" style="font-family: 'Noto Serif Bengali', serif; color: #1A1A1A;">
+                        লেখনী
+                    </h1>
+                    <p class="lead text-muted" style="font-size: 1.2rem;">
+                        বাংলা কবিতার আখর — যেখানে কলম কথা বলে, আর আবেগ হয়ে ওঠে ছন্দ
+                    </p>
+                    <p style="color: #C45A3C; font-style: italic; font-size: 1.1rem;">
+                        "এসো কবিতা লিখি — বাংলা কবিতার আখর"
+                    </p>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="row g-4 mb-5">
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm hover-lift text-center p-4">
+                            <i class="fas fa-book-open fs-1" style="color: #2A7F7A;"></i>
+                            <h3 class="mt-3" style="font-family: 'Noto Serif Bengali', 'Hind Siliguri', sans-serif; font-feature-settings: 'tnum'; font-weight: 600;">
+                                {{ total_poems|bengali_num }}
+                            </h3>
+                            <p class="text-muted mb-0">মোট কবিতা</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm hover-lift text-center p-4">
+                            <i class="fas fa-tags fs-1" style="color: #FFB347;"></i>
+                            <h3 class="mt-3" style="font-family: 'Noto Serif Bengali', 'Hind Siliguri', sans-serif; font-feature-settings: 'tnum'; font-weight: 600;">
+                                {{ total_categories|bengali_num }}
+                            </h3>
+                            <p class="text-muted mb-0">বিভাগ</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm hover-lift text-center p-4">
+                            <i class="fas fa-users fs-1" style="color: #C45A3C;"></i>
+                            <h3 class="mt-3" style="font-family: 'Noto Serif Bengali', 'Hind Siliguri', sans-serif; font-feature-settings: 'tnum'; font-weight: 600;">
+                                {{ total_authors|bengali_num }}
+                            </h3>
+                            <p class="text-muted mb-0">কবি</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mission Section -->
+                <div class="row g-4 mb-5">
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4 p-md-5">
+                                <h4 style="font-family: 'Noto Serif Bengali', serif; color: #2A7F7A;">
+                                    <i class="fas fa-bullseye me-2"></i> আমাদের লক্ষ্য
+                                </h4>
+                                <p class="text-muted">
+                                    <strong>লেখনী</strong> হলো বাংলা কবিতার একটি অনলাইন প্ল্যাটফর্ম। 
+                                    আমাদের লক্ষ্য হলো বাংলা কবিতার চর্চাকে আরও জনপ্রিয় করা 
+                                    এবং নতুন কবিদের একটি সুন্দর প্ল্যাটফর্ম দেওয়া।
+                                </p>
+                                <p class="text-muted mb-0">
+                                    আমরা বিশ্বাস করি, প্রতিটি মানুষের মধ্যে একজন কবি আছে। 
+                                    <strong>লেখনী</strong> সেই কবিকে খুঁজে বের করার এবং 
+                                    তার কবিতাকে বিশ্বের সামনে তুলে ধরার একটি মাধ্যম।
+                                </p>
                             </div>
-                            <div class="col-6 col-md-4 text-center">
-                                <div class="p-3" style="background: #FDF8F0; border-radius: 12px;">
-                                    <i class="fas fa-tags" style="font-size: 32px; color: #C45A3C;"></i>
-                                    <h6 class="mt-2 mb-0" style="color: #888; font-size: 0.8rem;">বিভাগ</h6>
-                                    <p class="display-6 fw-bold" style="font-size: 2.2rem; color: #C45A3C; margin: 0;">{{ total_categories|bengali_num|default:"০" }}</p>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-4 text-center">
-                                <div class="p-3" style="background: #FDF8F0; border-radius: 12px;">
-                                    <i class="fas fa-users" style="font-size: 32px; color: #2A7F7A;"></i>
-                                    <h6 class="mt-2 mb-0" style="color: #888; font-size: 0.8rem;">লেখক</h6>
-                                    <p class="display-6 fw-bold" style="font-size: 2.2rem; color: #2A7F7A; margin: 0;">{{ total_authors|bengali_num|default:"০" }}</p>
-                                </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4 p-md-5">
+                                <h4 style="font-family: 'Noto Serif Bengali', serif; color: #C45A3C;">
+                                    <i class="fas fa-heart me-2"></i> কেন লেখনী?
+                                </h4>
+                                <ul class="list-unstyled text-muted">
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle me-2" style="color: #2A7F7A;"></i>
+                                        সম্পূর্ণ বাংলা ভাষায় কবিতা চর্চা
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle me-2" style="color: #2A7F7A;"></i>
+                                        নতুন কবিদের জন্য উন্মুক্ত প্ল্যাটফর্ম
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle me-2" style="color: #2A7F7A;"></i>
+                                        সুন্দর ও আধুনিক ডিজাইন
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle me-2" style="color: #2A7F7A;"></i>
+                                        সহজে কবিতা প্রকাশ ও পড়ার সুযোগ
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Back to Home CTA -->
+                <div class="text-center">
+                    <a href="{% url 'home' %}" class="btn btn-primary btn-lg rounded-pill px-5">
+                        <i class="fas fa-home me-2"></i> হোম পেজে ফিরুন
+                    </a>
+                </div>
+
             </div>
         </div>
     </div>

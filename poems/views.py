@@ -322,7 +322,7 @@ class CategoryLoadMorePoemsView(View):
 
 class SearchView(ListView):
     """Search poems"""
-    template_name = 'poems/search_results.html'
+    template_name = 'poems/search.html'
     context_object_name = 'poems'
     paginate_by = 9
 
@@ -344,6 +344,41 @@ class SearchView(ListView):
         context['result_count'] = self.get_queryset().count()
         return context
 
+
+class SearchLoadMoreView(View):
+    """API endpoint to fetch next batch of search results via AJAX"""
+    
+    def get(self, request, *args, **kwargs):
+        page = request.GET.get('page', 2)
+        query = request.GET.get('q', '').strip()
+        
+        if not query:
+            return JsonResponse({'html': '', 'has_next': False})
+        
+        all_poems = Poem.objects.filter(
+            models.Q(title__icontains=query) |
+            models.Q(content__icontains=query) |
+            models.Q(category__name__icontains=query) |
+            models.Q(author__username__icontains=query),
+            is_published=True
+        ).distinct().order_by('-published_at')
+        
+        paginator = Paginator(all_poems, 9)
+        
+        try:
+            poems = paginator.page(page)
+        except:
+            return JsonResponse({'html': '', 'has_next': False})
+        
+        from django.template.loader import render_to_string
+        html = render_to_string('partials/_poem_card.html', {'poems': poems})
+        
+        return JsonResponse({
+            'html': html,
+            'has_next': poems.has_next()
+        })
+
+    
 
 class ToggleLikeView(LoginRequiredMixin, View):
     """Toggle like on a poem (AJAX)"""

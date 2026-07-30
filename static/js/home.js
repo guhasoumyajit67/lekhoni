@@ -7,13 +7,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // --------------------------------------------
     // 1. Handle "See More" or specific homepage interactions
     // --------------------------------------------
-    // (If you don't have a 'See More' button, this is a placeholder for future features)
     console.log("Homepage loaded successfully.");
 
     // --------------------------------------------
     // 2. Hover Lift Animation Enhancement
     // --------------------------------------------
-    // Add a smooth scale transition to all cards
     const cards = document.querySelectorAll('.hover-lift');
     cards.forEach(function(card) {
         card.addEventListener('mouseenter', function() {
@@ -30,20 +28,21 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // --------------------------------------------
-    // 3. Fix Bengali Numerals on the Homepage (Crucial!)
+    // 3. Fix Bengali Numerals on the Homepage
     // --------------------------------------------
-    // The template uses |bengali_num, but sometimes AJAX or dynamic content 
-    // might load with standard numbers. This ensures they look right.
     function updateHomeBengaliNumbers() {
         document.querySelectorAll('.like-count, .view-count, .comment-count, .poem-count').forEach(function(el) {
-            // Only modify if it's just a plain number (not already converted)
             const text = el.textContent.trim();
             if (/^\d+$/.test(text)) {
-                // We won't override Django's template tag here, but we ensure font consistency
                 el.style.fontFamily = "'Noto Serif Bengali', 'Hind Siliguri', sans-serif";
                 el.style.fontFeatureSettings = "'tnum'";
             }
         });
     }
     updateHomeBengaliNumbers();
+
+    // --------------------------------------------
+    // 4. REMOVED SEARCH JS - Handled natively by HTML onclick
+    // --------------------------------------------
+    console.log("✅ Search handled natively by HTML.");
 });

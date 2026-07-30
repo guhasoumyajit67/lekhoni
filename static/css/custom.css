@@ -572,3 +572,50 @@ p.count,
     -moz-font-feature-settings: "tnum" !important;
     font-weight: 600 !important;
 }
+
+
+
+/* ============================================
+   SEARCH BAR PILL STYLING (100% SEAMLESS FIX)
+   ============================================ */
+
+/* THE WRAPPER: This forces the entire pill to be perfectly round */
+.search-pill {
+    border-radius: 50px !important;
+    overflow: hidden !important;
+    border: 2px solid #ced4da !important;
+    background-color: #ffffff !important;
+    display: flex !important;
+    align-items: stretch !important;
+}
+
+/* Remove all borders from the input and let the wrapper handle it */
+.search-pill .form-control {
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding-left: 20px !important;
+}
+
+/* Remove all borders from the button and let the wrapper handle it */
+.search-pill .btn {
+    border: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    background-color: transparent !important;
+    color: #2A7F7A !important;
+    padding: 0 20px !important;
+}
+
+/* Hover effect - change the wrapper's border color and button color */
+.search-pill:hover {
+    border-color: #2A7F7A !important;
+    transition: border-color 0.3s ease !important;
+}
+
+.search-pill:hover .btn {
+    color: #2A7F7A !important;
+    transform: scale(1.05) !important;
+    transition: all 0.3s ease !important;
+}

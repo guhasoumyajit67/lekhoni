@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+{% load bengali_numbers %}
+
+{% block title %}অনুসন্ধান ফলাফল - লেখনী{% endblock %}
+
+{% block content %}
+<div class="py-3">
+    <div class="mb-4">
+        <h2 class="text-center mb-2" style="font-family: 'Noto Serif Bengali', serif; font-size: 1.8rem;">
+            <i class="fas fa-search me-2" style="color: #2A7F7A;"></i>
+            অনুসন্ধান ফলাফল
+        </h2>
+        
+        <div class="text-center">
+            <p class="text-muted small">
+                "<strong>{{ query }}</strong>" এর জন্য 
+                <span style="font-family: 'Noto Serif Bengali', 'Hind Siliguri', sans-serif; font-feature-settings: 'tnum'; font-weight: 600;">
+                    {{ result_count|bengali_num }}
+                </span> 
+                টি কবিতা পাওয়া গেছে
+            </p>
+        </div>
+    </div>
+    
+    <!-- CONTAINER FOR POEMS -->
+    <div class="row g-3" id="poem-container">
+        {% include 'partials/_poem_card.html' %}
+    </div>
+    
+    <!-- LOAD MORE BUTTON (If you want infinite scroll on search too) -->
+    <div class="text-center mt-4" id="load-more-wrapper">
+        <button id="load-more-btn" class="btn btn-outline-teal">
+            <i class="fas fa-plus-circle me-2"></i> আরও লোড করুন
+        </button>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    const loadMoreWrapper = document.getElementById('load-more-wrapper');
+    const poemContainer = document.getElementById('poem-container');
+    
+    if (!loadMoreBtn) return;
+
+    // Get the current search query from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get('q');
+    
+    let currentPage = 2;
+
+    loadMoreBtn.addEventListener('click', function() {
+        loadMoreBtn.disabled = true;
+        loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> লোড হচ্ছে...';
+
+        // Fetch next page with the search query preserved
+        fetch(`/search/load-more/?q=${query}&page=${currentPage}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.html) {
+                poemContainer.insertAdjacentHTML('beforeend', data.html);
+                currentPage++;
+            }
+            
+            if (data.has_next) {
+                loadMoreBtn.disabled = false;
+                loadMoreBtn.innerHTML = '<i class="fas fa-plus-circle me-2"></i> আরও লোড করুন';
+            } else {
+                loadMoreWrapper.innerHTML = '<p class="text-muted">সব কবিতা লোড করা হয়েছে!</p>';
+            }
+        })
+        .catch(error => {
+            console.error('Error loading search results:', error);
+            loadMoreBtn.disabled = false;
+            loadMoreBtn.innerHTML = '<i class="fas fa-plus-circle me-2"></i> আরও লোড করুন';
+            alert('লোড করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
+        });
+    });
+});
+</script>
+{% endblock extra_js %}
+{% endblock %}

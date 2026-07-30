@@ -18,14 +18,39 @@
                 <p class="lead text-muted mt-3" style="font-size: 1.25rem;">
                     বাংলা কবিতার আখর — যেখানে কলম কথা বলে, আর আবেগ হয়ে ওঠে ছন্দ
                 </p>
-                <div class="mt-4">
-                    <a href="{% url 'create_poem' %}" class="btn btn-primary btn-lg me-3">
-                        <i class="fas fa-pen-fancy me-2"></i> নতুন কবিতা লিখুন
-                    </a>
-                    <a href="{% url 'poem_list' %}" class="btn btn-outline-teal btn-lg">
-                        <i class="fas fa-book-open me-2"></i> সব কবিতা দেখুন
-                    </a>
-                </div>
+
+
+
+                
+
+<!-- SEARCH BAR - NATIVE HTML CLICK (Cannot be blocked) -->
+<div class="mt-4">
+    <form method="get" action="{% url 'search' %}" class="d-flex" id="home-search-form">
+        <div class="input-group search-pill" style="max-width: 400px; position: relative; display: flex; align-items: stretch; border-radius: 50px; overflow: hidden; border: 1px solid #ced4da; background: white;">
+            
+            <input type="text" name="q" class="form-control form-control-lg" 
+                   placeholder="কবিতা খুঁজুন..." aria-label="Search" required 
+                   style="padding-left: 20px; border: none; background: transparent; border-radius: 50px 0 0 50px; box-shadow: none;">
+            
+            <!-- 🚨 NATIVE CLICK: onclick triggers submit immediately -->
+            <span class="search-btn" 
+                  onclick="document.getElementById('home-search-form').submit(); return false;"
+                  style="display: flex; align-items: center; justify-content: center; 
+                         padding: 0 20px; cursor: pointer; color: #2A7F7A; 
+                         transition: all 0.3s ease; background: transparent; border: none; 
+                         border-radius: 0 50px 50px 0;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg>
+            </span>
+        </div>
+    </form>
+</div>
+
+
+
+
+
             </div>
             <div class="col-lg-5 d-none d-lg-block text-end">
                 <i class="fas fa-feather-alt" style="font-size: 150px; color: #C45A3C; opacity: 0.2;"></i>
