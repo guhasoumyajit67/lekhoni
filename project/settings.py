@@ -86,7 +86,16 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {"default": env.dj_db_url("DATABASE_URL", default="sqlite:///db.sqlite3")}
+# Database
+# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        **env.dj_db_url("DATABASE_URL"),
+        'CONN_MAX_AGE': 600,          # Keep connections alive for 10 minutes
+        'CONN_HEALTH_CHECKS': True,   # Check connection health before using
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
