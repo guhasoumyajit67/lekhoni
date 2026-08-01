@@ -1,0 +1,620 @@
+/* ============================================
+   লেখনী - Complete Custom Styles
+   ============================================ */
+
+/* Brand Colors */
+:root {
+    --cream: #FDF8F0;
+    --charcoal: #1A1A1A;
+    --teal: #2A7F7A;
+    --rusty-orange: #C45A3C;
+    --gold: #FFB347;
+}
+
+/* ============================================
+   Global Styles
+   ============================================ */
+body {
+    background-color: var(--cream);
+    color: var(--charcoal);
+    font-family: 'Hind Siliguri', 'Noto Serif Bengali', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 18px;
+    line-height: 1.8;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* ============================================
+   Typography
+   ============================================ */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Noto Serif Bengali', serif;
+    font-weight: 700;
+    color: var(--charcoal);
+}
+
+.poem-text {
+    font-family: 'Noto Serif Bengali', serif;
+    font-size: 20px;
+    line-height: 2.4;
+    padding: 1.5rem 0;
+    white-space: pre-line;
+}
+
+/* ============================================
+   GLOBAL BENGALI NUMERALS - Applied to ALL pages
+   ============================================ */
+
+/* Target ALL elements that might display numbers */
+.like-count, 
+.view-count, 
+.comment-count,
+.views-count,
+.comments-count,
+#commentCountDisplay,
+#commentCount,
+.like-counter,
+.followers-count,
+.poem-count,
+.total-count,
+.badge,
+.stat-number,
+.counter,
+.count,
+.number,
+.stat,
+.pagination .page-link,
+.page-item .page-link,
+[class*="-count"],
+[class*="Count"],
+[data-count],
+[data-number] {
+    font-family: 'Noto Serif Bengali', 'Hind Siliguri', 'Bangla', 'Arial Unicode MS', sans-serif !important;
+    font-feature-settings: "tnum", "ss01" !important;
+    -webkit-font-feature-settings: "tnum", "ss01" !important;
+    -moz-font-feature-settings: "tnum", "ss01" !important;
+    font-variant-numeric: tabular-nums !important;
+    unicode-bidi: embed !important;
+    font-weight: 600 !important;
+}
+
+/* Specifically target Bengali number display */
+.bengali-number,
+[class*="bengali"],
+[data-bengali] {
+    font-family: 'Noto Serif Bengali', 'Hind Siliguri', 'Bangla', serif !important;
+    font-feature-settings: "tnum" !important;
+    -webkit-font-feature-settings: "tnum" !important;
+    -moz-font-feature-settings: "tnum" !important;
+    font-weight: 600 !important;
+}
+
+/* Ensure all button numbers use Bengali numerals */
+.btn .like-count,
+.btn .view-count,
+.btn .comment-count,
+.btn span.like-count,
+.btn span.view-count,
+.btn span.comment-count,
+button .like-count,
+button .view-count,
+span .like-count,
+span .view-count {
+    font-family: 'Noto Serif Bengali', 'Hind Siliguri', 'Bangla', 'Arial Unicode MS', sans-serif !important;
+    font-feature-settings: "tnum" !important;
+    -webkit-font-feature-settings: "tnum" !important;
+    -moz-font-feature-settings: "tnum" !important;
+    font-variant-numeric: tabular-nums !important;
+    font-weight: 600 !important;
+}
+
+/* ============================================
+   Navbar
+   ============================================ */
+.navbar {
+    background-color: var(--charcoal) !important;
+    padding: 12px 0;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-brand {
+    font-family: 'Noto Serif Bengali', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--cream) !important;
+    line-height: 1.2;
+}
+
+.navbar-brand small {
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.8) !important;
+    transition: all 0.3s ease;
+    font-weight: 400;
+    padding: 8px 16px;
+    border-radius: 50px;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--cream) !important;
+    background-color: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+}
+
+.navbar-nav .nav-link.active {
+    color: var(--cream) !important;
+    background-color: rgba(42, 127, 122, 0.2);
+    font-weight: 600;
+}
+
+.navbar-nav .nav-link i {
+    width: 18px;
+    text-align: center;
+}
+
+/* Dropdown */
+.dropdown-menu {
+    background-color: var(--charcoal) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.dropdown-item {
+    color: rgba(255, 255, 255, 0.8);
+    transition: all 0.2s ease;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(42, 127, 122, 0.2) !important;
+    color: white;
+    transform: translateX(3px);
+}
+
+.dropdown-item i {
+    width: 20px;
+    text-align: center;
+}
+
+.dropdown-divider {
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+.btn-primary {
+    background-color: var(--teal);
+    border-color: var(--teal);
+    color: white;
+    font-weight: 600;
+    padding: 10px 30px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #1f635f;
+    border-color: #1f635f;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(42, 127, 122, 0.3);
+}
+
+.btn-outline-teal {
+    color: var(--teal);
+    border: 2px solid var(--teal);
+    background: transparent;
+    border-radius: 50px;
+    padding: 8px 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-teal:hover {
+    background-color: var(--teal);
+    color: white;
+    transform: translateY(-2px) translateX(3px);
+    box-shadow: 0 4px 15px rgba(42, 127, 122, 0.3);
+}
+
+.btn-rusty {
+    background-color: var(--rusty-orange);
+    border-color: var(--rusty-orange);
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-rusty:hover {
+    background-color: #a84d33;
+    border-color: #a84d33;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(196, 90, 60, 0.3);
+}
+
+/* ============================================
+   Cards
+   ============================================ */
+.card {
+    background-color: white;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.card-title a {
+    color: var(--charcoal);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.card-title a:hover {
+    color: #C45A3C !important;
+}
+
+/* Hover Lift Effect */
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ============================================
+   Hero Section
+   ============================================ */
+.hero-section {
+    background: linear-gradient(135deg, #FDF8F0 0%, #f5eee4 100%);
+    padding: 60px 0 40px;
+    border-bottom: 3px solid var(--teal);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 60%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(196, 90, 60, 0.03) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+/* ============================================
+   Featured Card
+   ============================================ */
+.featured-card {
+    border-radius: 16px;
+    overflow: hidden;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.featured-card .badge {
+    background: var(--rusty-orange) !important;
+    padding: 8px 16px;
+    font-size: 14px;
+}
+
+.featured-card .poem-text {
+    font-size: 18px;
+    line-height: 2.2;
+    color: #1A1A1A;
+}
+
+/* ============================================
+   Categories Section
+   ============================================ */
+.categories-section .card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.categories-section .card:hover {
+    background-color: var(--teal);
+    border-color: var(--teal);
+}
+
+.categories-section .card:hover i {
+    color: white !important;
+}
+
+.categories-section .card:hover p {
+    color: white !important;
+}
+
+/* ============================================
+   Pagination
+   ============================================ */
+.pagination .page-link {
+    color: var(--teal);
+    border: none;
+    margin: 0 4px;
+    border-radius: 8px;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+    font-family: 'Noto Serif Bengali', 'Hind Siliguri', sans-serif !important;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #C45A3C;
+    border-color: #C45A3C;
+    color: white;
+}
+
+.pagination .page-link:hover {
+    background-color: var(--teal);
+    color: white;
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+.custom-dark-footer {
+    background-color: var(--charcoal);
+    color: rgba(255, 255, 255, 0.8);
+    padding: 40px 0 20px;
+    margin-top: 50px;
+    border-top: 3px solid var(--teal);
+}
+
+.custom-dark-footer a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.custom-dark-footer a:hover {
+    color: var(--rusty-orange);
+}
+
+.custom-dark-footer-link {
+    color: rgba(255, 255, 255, 0.6) !important;
+    transition: all 0.3s ease;
+}
+
+.custom-dark-footer-link:hover {
+    color: var(--rusty-orange) !important;
+}
+
+/* ============================================
+   Forms
+   ============================================ */
+.form-control {
+    border-radius: 8px;
+    border: 2px solid #e0e0e0;
+    transition: all 0.3s ease;
+    font-family: 'Hind Siliguri', sans-serif;
+    padding: 10px 15px;
+}
+
+.form-control:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 0.2rem rgba(42, 127, 122, 0.1);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--charcoal);
+}
+
+/* ============================================
+   About Teaser
+   ============================================ */
+.about-teaser {
+    background: #F5F0E8;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* ============================================
+   Scrollbar Styling
+   ============================================ */
+.poem-preview::-webkit-scrollbar {
+    width: 4px;
+}
+
+.poem-preview::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+}
+
+.poem-preview::-webkit-scrollbar-thumb {
+    background: #C45A3C;
+    border-radius: 10px;
+}
+
+.poem-preview::-webkit-scrollbar-thumb:hover {
+    background: #a84d33;
+}
+
+/* ============================================
+   Badges
+   ============================================ */
+.badge-teal {
+    background-color: var(--teal);
+    color: white;
+    padding: 6px 12px;
+    font-weight: 500;
+}
+
+.badge-rusty {
+    background-color: var(--rusty-orange);
+    color: white;
+    padding: 6px 12px;
+    font-weight: 500;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+    
+    .poem-text {
+        font-size: 18px;
+        line-height: 2.2;
+        padding: 1rem 0;
+    }
+    
+    .hero-section h1 {
+        font-size: 2.2rem;
+    }
+    
+    .navbar-brand {
+        font-size: 22px;
+    }
+    
+    .navbar-brand small {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container-fluid {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .hero-section {
+        padding: 40px 0 30px;
+    }
+}
+
+/* ============================================
+   FIX: Force Bengali numerals in all browsers
+   ============================================ */
+/* This ensures Bengali numerals appear correctly in all browsers */
+@supports (font-variant-numeric: tabular-nums) {
+    .like-count, 
+    .view-count, 
+    .comment-count,
+    .views-count,
+    .comments-count,
+    #commentCountDisplay,
+    #commentCount,
+    .pagination .page-link {
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+/* Fallback for browsers that don't support font-variant-numeric */
+@supports not (font-variant-numeric: tabular-nums) {
+    .like-count, 
+    .view-count, 
+    .comment-count,
+    .views-count,
+    .comments-count,
+    #commentCountDisplay,
+    #commentCount,
+    .pagination .page-link {
+        font-family: 'Noto Serif Bengali', 'Bangla', 'Arial Unicode MS', serif !important;
+    }
+}
+
+/* Force unicode bidirectional for Bengali text */
+.bengali-text,
+.poem-text,
+[lang="bn"],
+[lang="bn-IN"] {
+    unicode-bidi: embed;
+    direction: ltr;
+}
+
+/* ============================================
+   ADDITIONAL: Ensure numbers in all contexts
+   ============================================ */
+/* This catches any other number displays */
+span.count,
+div.count,
+p.count,
+.badge-count,
+.stats .number,
+.meta .count,
+.info .number,
+.likes .count,
+.views .count,
+.comments .count {
+    font-family: 'Noto Serif Bengali', 'Hind Siliguri', 'Bangla', 'Arial Unicode MS', sans-serif !important;
+    font-feature-settings: "tnum" !important;
+    -webkit-font-feature-settings: "tnum" !important;
+    -moz-font-feature-settings: "tnum" !important;
+    font-weight: 600 !important;
+}
+
+
+
+/* ============================================
+   SEARCH BAR PILL STYLING (100% SEAMLESS FIX)
+   ============================================ */
+
+/* THE WRAPPER: This forces the entire pill to be perfectly round */
+.search-pill {
+    border-radius: 50px !important;
+    overflow: hidden !important;
+    border: 2px solid #ced4da !important;
+    background-color: #ffffff !important;
+    display: flex !important;
+    align-items: stretch !important;
+}
+
+/* Remove all borders from the input and let the wrapper handle it */
+.search-pill .form-control {
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding-left: 20px !important;
+}
+
+/* Remove all borders from the button and let the wrapper handle it */
+.search-pill .btn {
+    border: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    background-color: transparent !important;
+    color: #2A7F7A !important;
+    padding: 0 20px !important;
+}
+
+/* Hover effect - change the wrapper's border color and button color */
+.search-pill:hover {
+    border-color: #2A7F7A !important;
+    transition: border-color 0.3s ease !important;
+}
+
+.search-pill:hover .btn {
+    color: #2A7F7A !important;
+    transform: scale(1.05) !important;
+    transition: all 0.3s ease !important;
+}
