@@ -19,15 +19,17 @@ class AccountsUrlsTest(TestCase):
 
     def test_profile_url(self):
         """Test profile URL resolves correctly"""
-        url = reverse('accounts:profile')
+        # ✅ FIXED: Removed 'accounts:'
+        url = reverse('profile')
         self.assertEqual(url, '/accounts/profile/')
-        self.assertEqual(resolve(url).view_name, 'accounts:profile')
+        self.assertEqual(resolve(url).view_name, 'profile')
 
     def test_profile_update_url(self):
         """Test profile update URL resolves correctly"""
-        url = reverse('accounts:profile_update')
+        # ✅ FIXED: Removed 'accounts:'
+        url = reverse('profile_update')
         self.assertEqual(url, '/accounts/profile/update/')
-        self.assertEqual(resolve(url).view_name, 'accounts:profile_update')
+        self.assertEqual(resolve(url).view_name, 'profile_update')
 
     def test_logout_url(self):
         """Test logout URL resolves correctly"""

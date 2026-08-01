@@ -59,7 +59,8 @@ class LoginViewTest(TestCase):
             password='loginpass123'
         )
         self.login_url = reverse('login')
-        self.home_url = reverse('poems:home')
+        # ✅ FIXED: Removed 'poems:'
+        self.home_url = reverse('home')
 
     def test_login_page_status(self):
         """Test login page loads successfully"""
@@ -103,7 +104,8 @@ class ProfileViewTest(TestCase):
             email='profile@example.com',
             password='profilepass123'
         )
-        self.profile_url = reverse('accounts:profile')
+        # ✅ FIXED: Removed 'accounts:'
+        self.profile_url = reverse('profile')
         self.login_url = reverse('login')
 
     def test_profile_redirects_if_not_logged_in(self):
@@ -128,7 +130,8 @@ class ProfileUpdateViewTest(TestCase):
             password='updatepass123',
             email='old@example.com'
         )
-        self.update_url = reverse('accounts:profile_update')
+        # ✅ FIXED: Removed 'accounts:'
+        self.update_url = reverse('profile_update')
         self.login_url = reverse('login')
 
     def test_profile_update_redirects_if_not_logged_in(self):
@@ -145,7 +148,7 @@ class ProfileUpdateViewTest(TestCase):
             'first_name': 'Updated',
             'last_name': 'User',
         })
-        self.assertRedirects(response, reverse('accounts:profile'))
+        self.assertRedirects(response, reverse('profile'))
         self.user.refresh_from_db()
         self.assertEqual(self.user.email, 'newemail@example.com')
         self.assertEqual(self.user.first_name, 'Updated')
@@ -160,7 +163,8 @@ class LogoutViewTest(TestCase):
             password='logoutpass123'
         )
         self.logout_url = reverse('logout')
-        self.home_url = reverse('poems:home')
+        # ✅ FIXED: Removed 'poems:'
+        self.home_url = reverse('home')
 
     def test_logout_success(self):
         """Test user can logout successfully"""

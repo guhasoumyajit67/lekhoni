@@ -234,6 +234,10 @@ class MyPoemsLoadMoreView(View):
     """API endpoint to fetch next batch of user's poems via AJAX"""
     
     def get(self, request, *args, **kwargs):
+        # 🚨 FIX: Stop AnonymousUsers from crashing the database query
+        if not request.user.is_authenticated:
+            return JsonResponse({'html': '', 'has_next': False}, status=401)
+        
         page = request.GET.get('page', 2)
         
         all_poems = Poem.objects.filter(author=request.user).order_by('-created_at')
