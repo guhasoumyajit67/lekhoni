@@ -153,7 +153,7 @@ EMAIL_PORT = env.int("EMAIL_PORT", default=587)
 EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
 EMAIL_HOST_USER = env.str("EMAIL_HOST_USER", default="")
 EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD", default="")
-DEFAULT_FROM_EMAIL = env.str("DEFAULT_FROM_EMAIL", default="onboarding@resend.dev")
+DEFAULT_FROM_EMAIL = env.str("DEFAULT_FROM_EMAIL", default="noreply@example.com")
 
 # Login/Logout URLs
 LOGIN_URL = 'login'
