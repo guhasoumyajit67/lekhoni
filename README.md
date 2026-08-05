@@ -9,7 +9,7 @@ A modern, multi-user poetry writing and sharing platform built with Django. Writ
 
 ## 🌐 Live Demo
 
-**View the live application:** [https://lekhoni.onrender.com](https://lekhoni.onrender.com)
+**View the live application:** [https://lekhoni-by2b.onrender.com](https://lekhoni-by2b.onrender.com)
 
 ---
 
@@ -55,32 +55,32 @@ Watch a quick 2-minute demo of Lekhoni in action:
 ![Homepage](screenshots/homepage.png)
 *Hero section with search bar, popular poems, and category cards.*
 
-### Popular Poems
-![Popular Poems](screenshots/popular_poems.png)
-*Trending poems from the last 7 days with like and comment counts.*
-
 ### All Poems
-![Poem List](screenshots/poem_list.png)
+![All Poems](screenshots/all_poems.png)
 *Browse all poems with infinite scroll loading.*
 
-### Poem Detail
-![Poem Detail](screenshots/poem_detail.png)
+### Poem Details
+![Poem Details](screenshots/poem_details.png)
 *Read poems, like, comment, and share with others.*
-
-### My Poems Dashboard
-![My Poems](screenshots/my_poems.png)
-*Manage your poems with analytics and quick edit/delete options.*
 
 ### Create Poem
 ![Create Poem](screenshots/create_poem.png)
 *Write and publish new poems with Bengali form labels.*
 
-### Category View
-![Category Detail](screenshots/category_detail.png)
+### My Poems Dashboard
+![My Poems Dashboard](screenshots/my_poems_dashboard.png)
+*Manage your poems with analytics and quick edit/delete options.*
+
+### Categories
+![Categories](screenshots/categories.png)
 *Browse poems by category with infinite scroll.*
 
+### Comment Section
+![Comment Section](screenshots/comment_section.png)
+*Read and interact with comments on poems.*
+
 ### Mobile Responsive
-![Mobile View](screenshots/mobile_view.png)
+![Mobile Responsive](screenshots/mobile_responsive.png)
 *Fully responsive design that works on all devices.*
 
 ---
@@ -425,7 +425,7 @@ Creates 22 predefined categories with Bengali names, slugs, and FontAwesome icon
 
 ### Deployed on Render
 
-This application is **live on Render** at: [https://lekhoni.onrender.com](https://lekhoni.onrender.com)
+This application is **live on Render** at: [https://lekhoni-by2b.onrender.com](https://lekhoni-by2b.onrender.com)
 
 The project includes a `Procfile` for easy deployment:
 
@@ -569,7 +569,7 @@ Test coverage includes:
 - **Developer**: Soumyajit Guha
 - **GitHub**: [guhasoumyajit67](https://github.com/guhasoumyajit67)
 - **LinkedIn**: [guhasoumyajit67](https://linkedin.com/in/guhasoumyajit67)
-- **Live Demo**: [https://lekhoni.onrender.com](https://lekhoni.onrender.com)
+- **Live Demo**: [https://lekhoni-by2b.onrender.com](https://lekhoni-by2b.onrender.com)
 
 ---
 
