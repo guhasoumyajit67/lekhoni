@@ -3,6 +3,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.urls import reverse
 from django.utils.text import slugify
+import uuid  # ✅ Added for generating unique slugs
 
 
 class Category(models.Model):
@@ -79,12 +80,19 @@ class Poem(models.Model):
         return reverse('poem_detail', args=[self.slug])
 
     def save(self, *args, **kwargs):
-        # Auto-generate unique slug
-        if not self.slug:
+        # 🔧 FIXED: Auto-generate unique slug with Bengali support
+        if not self.slug or self.slug == '':
+            # Try to create slug from title
             base_slug = slugify(self.title)
+            
+            # If slugify fails (Bengali characters), use UUID
+            if not base_slug:
+                # Use first 8 characters of UUID for uniqueness
+                base_slug = f"poem-{uuid.uuid4().hex[:8]}"
+            
+            # Ensure uniqueness
             slug = base_slug
             counter = 1
-            # Keep checking until we find a unique slug
             while Poem.objects.filter(slug=slug).exists():
                 slug = f"{base_slug}-{counter}"
                 counter += 1
